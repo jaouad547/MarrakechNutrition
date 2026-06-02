@@ -20,5 +20,9 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    // User profile routes
+    Route::get('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/password', [\App\Http\Controllers\Auth\ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::post('logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

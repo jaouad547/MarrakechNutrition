@@ -19,6 +19,9 @@ export default function Navbar() {
                         {auth.user ? (
                             <>
                                 <span className="text-gray-700">Bonjour, {auth.user.name}</span>
+                                <Link href={route('profile.edit')} className="text-gray-500 hover:text-gray-700">
+                                    Profil
+                                </Link>
                                 <Link
                                     href={route('logout')}
                                     method="post"
