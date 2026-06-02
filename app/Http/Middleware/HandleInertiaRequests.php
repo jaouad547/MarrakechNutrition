@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -35,11 +37,30 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $categories = [];
+
+        if (Schema::hasTable('categories')) {
+            $categories = Category::query()
+                ->withCount(['products' => fn ($query) => $query->where('is_active', true)])
+                ->having('products_count', '>', 0)
+                ->orderBy('name')
+                ->get(['id', 'name', 'slug'])
+                ->map(fn ($category) => [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'products_count' => $category->products_count,
+                ])
+                ->values()
+                ->all();
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'categories' => $categories,
             'flash' => [
                 'status' => fn () => $request->session()->get('status'),
             ],
