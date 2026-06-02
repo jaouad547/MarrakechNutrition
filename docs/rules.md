@@ -69,6 +69,17 @@ All project documentation lives in `docs/`. Read these files before starting any
 - Filtering & search: keep UI controls compact (sidebar on desktop, dropdown on mobile).
 - Accessibility: buttons and links must have discernible labels and keyboard focus states.
 
+### Cart Session Rules
+
+- Cart data must persist in the session while the user navigates the site.
+- The navbar should display a cart icon with the current item count.
+- Cart page must show product image, name, category, unit price, quantity, line total, and cart totals.
+- Quantity updates should recalculate totals immediately and remain session-persistent.
+- Adding a product should validate stock and block inactive or out-of-stock items.
+- All cart text must be in French and prices displayed as `1 250,00 DH`.
+- Remove actions should be one-click and clearly labelled.
+- Use responsive table/card layouts so the cart works on both mobile and desktop.
+
 ## 6. Code Quality Rules
 
 - Laravel conventions: PascalCase controllers/models, camelCase methods, snake_case tables
