@@ -21,6 +21,9 @@ Route::middleware('guest')->group(function () {
 
 Route::get('categories/{category}', [\App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
 
+Route::get('products', [\App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+Route::get('products/{product}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('categories/create', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])->name('categories.create');

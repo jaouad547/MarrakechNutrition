@@ -57,6 +57,18 @@ All project documentation lives in `docs/`. Read these files before starting any
 - Mobile-first responsive design
 - Components must match the HTML mockups in `docs/DESIGN/`
 
+### Product Display Rules
+
+- Product listings: grid layout with 1 column on mobile, 2 on tablet, 3 on desktop (mobile-first).
+- Product card: display image (square crop), product name, category link, price (MAD), and stock badge.
+- Image: use consistent aspect ratio (1:1), lazy-load images, and provide `alt` text in French.
+- Price: always formatted as `1 250,00 DH` and displayed near the product name.
+- Stock badge: show `En stock` (green) when stock > 0, otherwise `Rupture de stock` (red).
+- Product detail: large hero image, name, full description, price, stock status, and `Ajouter au panier` button.
+- Related products: show 4 related items from same category on product detail pages.
+- Filtering & search: keep UI controls compact (sidebar on desktop, dropdown on mobile).
+- Accessibility: buttons and links must have discernible labels and keyboard focus states.
+
 ## 6. Code Quality Rules
 
 - Laravel conventions: PascalCase controllers/models, camelCase methods, snake_case tables
