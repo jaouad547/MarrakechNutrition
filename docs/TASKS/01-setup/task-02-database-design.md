@@ -31,4 +31,4 @@ Create all database tables, migrations, and seeders needed for users, categories
 3–4 hours
 
 ## Status
-⬜ Not Started
+✅ Done
