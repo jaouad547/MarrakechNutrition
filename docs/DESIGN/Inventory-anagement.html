@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELITE OPTIMIZER | Inventory Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #081425;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2a3548;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#364e03",
+                        "outline-variant": "#44483b",
+                        "tertiary-container": "#e2e2e2",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "secondary": "#bec6e0",
+                        "background": "#081425",
+                        "on-primary-fixed": "#131f00",
+                        "on-primary": "#243600",
+                        "on-surface-variant": "#c5c8b7",
+                        "inverse-surface": "#d8e3fb",
+                        "surface-variant": "#2a3548",
+                        "on-background": "#d8e3fb",
+                        "primary": "#ffffff",
+                        "on-secondary": "#283044",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "surface-tint": "#b3d17a",
+                        "primary-fixed": "#ceee93",
+                        "on-primary-container": "#536d22",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-dim": "#081425",
+                        "surface": "#081425",
+                        "on-secondary-container": "#adb4ce",
+                        "surface-container": "#152031",
+                        "tertiary": "#ffffff",
+                        "surface-container-low": "#111c2d",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#2a3548",
+                        "surface-bright": "#2f3a4c",
+                        "inverse-primary": "#4d661c",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#b3d17a",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#ceee93",
+                        "surface-container-lowest": "#040e1f",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2f3131",
+                        "secondary-container": "#3f465c",
+                        "on-tertiary-container": "#636565",
+                        "error": "#ffb4ab",
+                        "outline": "#8f9282",
+                        "surface-container-high": "#1f2a3c",
+                        "on-surface": "#d8e3fb",
+                        "secondary-fixed": "#dae2fd",
+                        "inverse-on-surface": "#263143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "900"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container custom-scrollbar overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="fixed flex flex-col h-full border-r border-outline-variant/30 backdrop-blur-xl bg-surface-container h-screen w-64 left-0 top-0 z-50">
+<div class="p-6">
+<h1 class="text-headline-md font-headline-md font-black text-primary mb-1">ELITE OPTIMIZER</h1>
+<div class="flex items-center gap-3 mt-8 p-3 glass-panel rounded-lg">
+<div class="w-10 h-10 bg-surface-variant rounded-full flex items-center justify-center overflow-hidden border border-outline-variant/50">
+<img alt="Admin Avatar" class="w-full h-full object-cover" data-alt="A professional studio portrait of a high-performance athlete in dark athletic gear, looking confident and disciplined. The lighting is cinematic and low-key with subtle cool blue highlights, matching a dark-mode tech dashboard aesthetic. The overall mood is serious, elite, and focused." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-i6enAEv-HLZ8wEPu6-io6cUf3Fpxnbwd7Vjq7GDvWIA1knq8ukxUi0OkOxn8IPeQgBhYyYTD0xjRqRrFIRYCCz4HPANub9EGxV20VV9pM7t-HYAkRowI_9Uzq1469nru3oKkZElY-Ea3z3IkUXn7TEKVfbSWELwgyvLsdX-v7cWy-a_EyqVGm8ereD8X9b_E_HBYe6V07O7tQKG4oV6sdQ3IdOjAsUnGLDaVANPepvDLmyDT47omvSiyDIB0-ey8cAs6VVrvPAU"/>
+</div>
+<div>
+<p class="font-label-md text-label-md uppercase text-primary">Admin Panel</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Precision Control</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 mt-4">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-base text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-variant/50 transition-all font-label-md text-label-md uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-base text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-variant/50 transition-all font-label-md text-label-md uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Products</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-base bg-primary text-on-primary rounded-none font-bold px-4 py-3 flex items-center gap-base font-label-md text-label-md uppercase tracking-wider border-l-4 border-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">reorder</span>
+<span>Inventory</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-base text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-variant/50 transition-all font-label-md text-label-md uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span>Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-base text-on-surface-variant hover:text-primary px-4 py-3 hover:bg-surface-variant/50 transition-all font-label-md text-label-md uppercase tracking-wider" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="p-6">
+<button class="w-full bg-primary text-on-primary py-3 rounded-none font-label-md text-label-md uppercase tracking-widest font-bold glow-button transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add Product
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 p-margin-desktop min-h-screen bg-background">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row justify-between items-end mb-12 gap-gutter">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">INVENTORY</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Monitor and optimize your elite supplement stocks with clinical precision.</p>
+</div>
+<div class="w-full md:w-96">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/30 py-4 pl-12 pr-4 text-label-md font-label-md uppercase tracking-wider focus:outline-none focus:border-primary transition-colors" placeholder="SEARCH SKU OR PRODUCT..." type="text"/>
+</div>
+</div>
+</header>
+<!-- Stats Overview (Asymmetric Grid) -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
+<div class="glass-panel p-6 border-l-4 border-primary">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">Total SKU Units</p>
+<h3 class="font-headline-lg text-headline-lg text-primary">14,204</h3>
+<p class="text-[10px] text-primary-fixed-dim mt-2">+12% FROM LAST QUARTER</p>
+</div>
+<div class="glass-panel p-6">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">Low Stock Alerts</p>
+<h3 class="font-headline-lg text-headline-lg text-error">12</h3>
+<p class="text-[10px] text-on-surface-variant mt-2">REORDER RECOMMENDED</p>
+</div>
+<div class="glass-panel p-6">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">Inventory Value</p>
+<h3 class="font-headline-lg text-headline-lg text-primary">$1.2M</h3>
+<p class="text-[10px] text-on-surface-variant mt-2">CURRENT LIQUID ASSETS</p>
+</div>
+<div class="glass-panel p-6">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-2">Stock Turn Rate</p>
+<h3 class="font-headline-lg text-headline-lg text-primary">4.2x</h3>
+<p class="text-[10px] text-on-surface-variant mt-2">OPTIMAL PERFORMANCE</p>
+</div>
+</section>
+<!-- Inventory Table Section -->
+<section class="glass-panel overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-high">
+<tr>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Product</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">SKU</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Category</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Stock Level</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Price</th>
+<th class="px-6 py-4 font-label-md text-label-md uppercase tracking-wider text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Product Row 1 -->
+<tr class="hover:bg-surface-variant/30 transition-colors">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-highest border border-outline-variant/30 p-1">
+<img alt="Pre-Workout" class="w-full h-full object-cover grayscale contrast-125" data-alt="Close-up of a sleek, black professional supplement container with minimalist white typography. The setting is a technical, clinical environment with dramatic directional lighting and a dark, textured background. The image reflects a high-end, elite performance aesthetic with sharp focus and cinematic depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8BmRta568yUVK9pNmKEffB9H6EeD3WQLRnorhRAia4Mmz-u90y3VakweBZXpoJrt4J7Oj_t201TZdflXjz-agA0uPmpx_LvLlO4B8KVcUSsdgN-lWoDjN4x1chHCjG36orI4ejWG4ZCN3EcYlPUGBENPMViFD5x6ApyKP6UWCTOckFThYFD1gSJfOi5brLpVgQIiG6uUkPdccd7d5NpL05IikLqywn72wkv6miAq9Yxu_5SjDc4Fe5Lmar68KvwlNLajj2vXWz5g"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">NITRO-FUELED PRE-WORKOUT</p>
+<p class="text-[10px] text-on-surface-variant">V3.5 FORMULA</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-on-surface-variant">EO-NF-099</td>
+<td class="px-6 py-6">
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Performance</span>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-md text-label-md text-primary">842 IN STOCK</span>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-primary">$64.99</td>
+<td class="px-6 py-6">
+<div class="flex justify-end gap-3">
+<button class="p-2 border border-outline-variant/30 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-4 py-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest font-bold">RESTOCK</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 2 -->
+<tr class="hover:bg-surface-variant/30 transition-colors">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-highest border border-outline-variant/30 p-1">
+<img alt="Isolate Protein" class="w-full h-full object-cover grayscale contrast-125" data-alt="Detailed macro shot of high-quality supplement powder texture next to its premium dark container. The lighting highlights the fine granules and the clinical purity of the product. The color palette is strictly deep blacks and cool whites, creating a professional and technical atmosphere for elite athletes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAECY9y28hr0yCzCRYg-6FbXEI_yooLnHMymbPNNncZFc7giK4YKg-WlRwtrbKrBrZh3v7DFXM20AkMLRQ8HG_B1sCiYXxyNZDVai3x1MJX48AqJmKd5kmKO55p-EcGew5_d5wjtstXDMfoZy-MevhOTb7iXmv9ukdER0CGiZ1kVKMaS2Jt8HhNB8AABgZRRc9uVbRWVoWhEj5FwaLv4ec_OWq5juo-TjnDZFgdTp8yyIpGFnXNaZHU9IpHEWIEZ7S9TfBc2zc-jcc"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">WHEY ISOLATE PRECISION</p>
+<p class="text-[10px] text-on-surface-variant">VANILLA RECOVERY</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-on-surface-variant">EO-WI-442</td>
+<td class="px-6 py-6">
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Stacks</span>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="font-label-md text-label-md text-error">14 LOW STOCK</span>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-primary">$89.99</td>
+<td class="px-6 py-6">
+<div class="flex justify-end gap-3">
+<button class="p-2 border border-outline-variant/30 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-4 py-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest font-bold">RESTOCK</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 3 -->
+<tr class="hover:bg-surface-variant/30 transition-colors">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-highest border border-outline-variant/30 p-1">
+<img alt="Mental Clarity" class="w-full h-full object-cover grayscale contrast-125" data-alt="A futuristic dark glass pill bottle containing nootropic capsules, set against a dark architectural background. Sharp shadows and bright white highlights emphasize the premium, technical nature of the supplement. The scene is clean, minimal, and conveys a sense of high-performance cognitive enhancement and scientific precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6Mg5KyvR12Khm22xPxskY_1b31jeuJQtbR96FfmfWB6_sOp06sF_VGV5iNKZ07ftcq3pSgC9CFl0SC2eHvpXAte-p-EBImfzAQE0ag2vGTZ_NPMCLTbalknYpEJaQWTnl5muDRS87LIBnpENYD6q9af9MUpeYv8heqXC20wKLbNzfdXTNNJQzef36cBSWlcJxNi30GuGW6Z7-xJs7IKacluZUG8UooCSiofTRXKfmN-VQKGdSkxXkiqE20fquoyz_i1mOMADv0ss"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">CORE COGNITIVE NOOTROPIC</p>
+<p class="text-[10px] text-on-surface-variant">NEURAL FOCUS</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-on-surface-variant">EO-CN-102</td>
+<td class="px-6 py-6">
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Scientifics</span>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">0 OUT OF STOCK</span>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-primary">$55.00</td>
+<td class="px-6 py-6">
+<div class="flex justify-end gap-3">
+<button class="p-2 border border-outline-variant/30 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-4 py-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest font-bold">RESTOCK</button>
+</div>
+</td>
+</tr>
+<!-- Product Row 4 -->
+<tr class="hover:bg-surface-variant/30 transition-colors">
+<td class="px-6 py-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 bg-surface-container-highest border border-outline-variant/30 p-1">
+<img alt="Essential Amino" class="w-full h-full object-cover grayscale contrast-125" data-alt="Technical laboratory-style shot of supplement capsules arranged in a geometric pattern on a polished dark surface. The lighting is high-contrast, creating deep shadows and brilliant highlights on the capsules. The overall vibe is pharmaceutical-grade quality and elite precision within a dark-mode performance environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8hBijRpB1f1vy3kUXG5i9lHZqU5fpT3ugLYl9XvAP0lXI_6BGVi3ifFMNhmZ32reEHA8j7mSHRCnarOtC4eVEJXeCHPQWDgjP3ggH2UfE5fAFm-PFzooYu7ueI5pJcbBxDuLBT9tyejvv0Y5zTWwWt1cMZ0Y1bMDY0sNIq2dTbIGPsuXF5-GfyPN--gJz2jvyh2sPVXQNQdPj36ULyqFkeLC0hu0kxin6axUlZjv9jPMnh_9ZOfoRToLK7ThNtGq41fsl68j2Vug"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">EAA RECOVERY MATRIX</p>
+<p class="text-[10px] text-on-surface-variant">HYDRATION + GROWTH</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-on-surface-variant">EO-RM-203</td>
+<td class="px-6 py-6">
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Performance</span>
+</td>
+<td class="px-6 py-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-md text-label-md text-primary">1,120 IN STOCK</span>
+</div>
+</td>
+<td class="px-6 py-6 font-label-md text-label-md text-primary">$49.99</td>
+<td class="px-6 py-6">
+<div class="flex justify-end gap-3">
+<button class="p-2 border border-outline-variant/30 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="px-4 py-2 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest font-bold">RESTOCK</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<footer class="p-6 flex justify-between items-center border-t border-outline-variant/20">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Showing 1-10 of 254 Products</p>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="px-4 py-2 bg-surface-variant text-primary font-label-sm text-label-sm uppercase font-bold">1</button>
+<button class="px-4 py-2 hover:bg-surface-variant text-on-surface-variant font-label-sm text-label-sm uppercase transition-colors">2</button>
+<button class="px-4 py-2 hover:bg-surface-variant text-on-surface-variant font-label-sm text-label-sm uppercase transition-colors">3</button>
+<button class="p-2 border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</footer>
+</section>
+<!-- Global Footer Branding -->
+<footer class="mt-20 py-base border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-gutter">
+<h2 class="font-headline-md text-headline-md font-black text-primary">ELITE OPTIMIZER</h2>
+<div class="flex gap-margin-desktop">
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Terms</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Wholesale</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<p class="font-label-sm text-label-sm uppercase text-on-surface-variant">© 2024 ELITE OPTIMIZER. ALL RIGHTS RESERVED.</p>
+</footer>
+</main>
+<script>
+        // Simple search interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+            searchInput.parentElement.style.transition = 'transform 0.2s ease';
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+
+        // Hover animations for table rows
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'translateX(4px)';
+                row.style.transition = 'transform 0.2s ease, background-color 0.2s ease';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body></html>

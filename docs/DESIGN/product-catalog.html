@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .electric-glow:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #081425;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #44483b;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#364e03",
+                        "outline-variant": "#44483b",
+                        "tertiary-container": "#e2e2e2",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "secondary": "#bec6e0",
+                        "background": "#081425",
+                        "on-primary-fixed": "#131f00",
+                        "on-primary": "#243600",
+                        "on-surface-variant": "#c5c8b7",
+                        "inverse-surface": "#d8e3fb",
+                        "surface-variant": "#2a3548",
+                        "on-background": "#d8e3fb",
+                        "primary": "#ffffff",
+                        "on-secondary": "#283044",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "surface-tint": "#b3d17a",
+                        "primary-fixed": "#ceee93",
+                        "on-primary-container": "#536d22",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-dim": "#081425",
+                        "surface": "#081425",
+                        "on-secondary-container": "#adb4ce",
+                        "surface-container": "#152031",
+                        "tertiary": "#ffffff",
+                        "surface-container-low": "#111c2d",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#2a3548",
+                        "surface-bright": "#2f3a4c",
+                        "inverse-primary": "#4d661c",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#b3d17a",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#ceee93",
+                        "surface-container-lowest": "#040e1f",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2f3131",
+                        "secondary-container": "#3f465c",
+                        "on-tertiary-container": "#636565",
+                        "error": "#ffb4ab",
+                        "outline": "#8f9282",
+                        "surface-container-high": "#1f2a3c",
+                        "on-surface": "#d8e3fb",
+                        "secondary-fixed": "#dae2fd",
+                        "inverse-on-surface": "#263143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "900"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<header class="fixed w-full top-0 z-50 bg-background border-b border-outline-variant/30">
+<nav class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="text-headline-md font-headline-md font-black tracking-tighter text-primary">
+                ELITE OPTIMIZER
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md uppercase" href="#">Shop</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase hover:text-primary transition-colors duration-200" href="#">Stacks</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase hover:text-primary transition-colors duration-200" href="#">Scientifics</a>
+<a class="text-on-surface-variant font-label-md text-label-md uppercase hover:text-primary transition-colors duration-200" href="#">Performance</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="hover:text-primary transition-colors duration-200 flex items-center gap-2">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="hover:text-primary transition-colors duration-200 flex items-center gap-2">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-md text-label-md uppercase">Cart</span>
+</button>
+<button class="hover:text-primary transition-colors duration-200 flex items-center gap-2">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-label-md text-label-md uppercase">Profile</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="pt-24 pb-20 max-w-container-max mx-auto px-margin-desktop">
+<!-- Hero Title Section -->
+<section class="mb-12 border-l-4 border-primary pl-6">
+<h1 class="font-display-lg text-display-lg uppercase tracking-tighter">Performance Catalog</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-4">Precision-engineered supplements for the elite athlete. Uncompromising quality for those who demand the absolute best from their body.</p>
+</section>
+<div class="flex flex-col md:flex-row gap-gutter">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0">
+<div class="sticky top-28 space-y-10">
+<!-- Category Filter -->
+<div>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-primary mb-4">Category</h3>
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 rounded-none w-5 h-5" type="checkbox"/>
+<span class="font-label-md text-label-md uppercase text-on-surface-variant group-hover:text-primary transition-colors">All Products</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 rounded-none w-5 h-5" type="checkbox"/>
+<span class="font-label-md text-label-md uppercase text-on-surface-variant group-hover:text-primary transition-colors">Pre-Workout</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 rounded-none w-5 h-5" type="checkbox"/>
+<span class="font-label-md text-label-md uppercase text-on-surface-variant group-hover:text-primary transition-colors">Nootropics</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox bg-surface-container border-outline-variant text-primary focus:ring-0 focus:ring-offset-0 rounded-none w-5 h-5" type="checkbox"/>
+<span class="font-label-md text-label-md uppercase text-on-surface-variant group-hover:text-primary transition-colors">Recovery</span>
+</label>
+</div>
+</div>
+<!-- Price Filter -->
+<div>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-primary mb-4">Price Range</h3>
+<div class="px-2">
+<input class="w-full h-1 bg-surface-variant appearance-none cursor-pointer accent-primary" max="200" min="0" step="10" type="range"/>
+<div class="flex justify-between mt-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant">$0</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">$200+</span>
+</div>
+</div>
+</div>
+<!-- Goal Filter -->
+<div>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-primary mb-4">Performance Goal</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 bg-surface-container border border-outline-variant font-label-sm text-label-sm uppercase hover:bg-primary hover:text-on-primary transition-all">Endurance</button>
+<button class="px-3 py-1 bg-primary text-on-primary border border-primary font-label-sm text-label-sm uppercase">Strength</button>
+<button class="px-3 py-1 bg-surface-container border border-outline-variant font-label-sm text-label-sm uppercase hover:bg-primary hover:text-on-primary transition-all">Focus</button>
+<button class="px-3 py-1 bg-surface-container border border-outline-variant font-label-sm text-label-sm uppercase hover:bg-primary hover:text-on-primary transition-all">Sleep</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Product Grid -->
+<div class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Product Card 1 -->
+<div class="glass-panel group relative flex flex-col h-full overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+<div class="absolute top-4 left-4 z-10">
+<span class="bg-primary text-on-primary font-label-sm text-label-sm px-3 py-1 uppercase tracking-widest">Top Seller</span>
+</div>
+<div class="aspect-[4/5] w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-110" data-alt="A professional studio product shot of a sleek, matte black supplement bottle with minimalist white typography. The lighting is high-contrast and dramatic, highlighting the texture of the container against a dark, industrial concrete background with subtle deep slate and electric highlights. The mood is clinical and high-end, representing elite performance and scientific precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWddcN_orCTxBFRcJiNFtWEO0cDvtcof8qZTsUsUWRO2o-N_9EL6_58lx-6dWsL7UBLZWww7yXwJljiOUb_Cf2QuXrtMzk4EOOan4dKhTZd93FcidOVDVPL0Gkuv-qGpTpFEKgzYfrP4I9MIHRX_JSjCj33azqhjQlZQ3CLdgW-01sH69gddRW7jg6Ki0QYq2vRKde9U4NT502RlAjjyEA4dxpq6ERKVOT7OL6eNs73F-0-NUEII0wAWw7KkgrgkxixU0170eKuRU"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md uppercase tracking-tighter leading-none">Neuro-Prime V2</h2>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">4.9</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">Elite Cognitive Nootropic</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md">$89.00</span>
+<button class="electric-glow bg-primary text-on-primary px-4 py-2 font-label-md text-label-md uppercase tracking-widest transition-all active:scale-95">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="glass-panel group relative flex flex-col h-full overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+<div class="absolute top-4 left-4 z-10">
+<span class="bg-surface-variant border border-primary text-primary font-label-sm text-label-sm px-3 py-1 uppercase tracking-widest">New Arrival</span>
+</div>
+<div class="aspect-[4/5] w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-110" data-alt="A macro shot of vibrant, textured supplement powder being poured into a high-end glass shaker. The lighting uses intense spotlights to create a sense of kinetic energy and high-velocity motion. Deep shadows and bright highlights emphasize the quality and purity of the supplement. The scene is set in a dark-mode gym environment with premium technical equipment blurred in the distance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_WVGXmJgVBLz5AHpOgEwN86tz-uN5tdasf6Fda0eWbl6DEVDEWLMu9Kh_PKkx3412sqv5AGQ1TiF3S_XNtNGR3KDkj_nyYFPa5aUFvjNaSIEOXhCEf9hIVy8D_6MZVVvqxUDMP_TY83D8YBnC2eL_1KvjRjDK-bKBecLmT6A1mYcuAbE_yjBwQ2FTuxznHhki65YCeci-Rz61BCl0jswte9u1Oz9liN1F7vCyFc0oPR2BFoAJk4Hyii99P-1vA-LCNkwJ58OkJho"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md uppercase tracking-tighter leading-none">Apex Strength</h2>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">4.8</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">Hydrolyzed Precision Isolate</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md">$115.00</span>
+<button class="electric-glow bg-primary text-on-primary px-4 py-2 font-label-md text-label-md uppercase tracking-widest transition-all active:scale-95">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="glass-panel group relative flex flex-col h-full overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+<div class="aspect-[4/5] w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-110" data-alt="A high-contrast cinematic shot of a professional athlete's silhouette in a dimly lit, high-performance training facility. The background is dark and moody with sharp geometric light beams highlighting the textures of high-end gym floor and heavy-duty steel equipment. The overall aesthetic is disciplined and uncompromising, utilizing a deep slate and metallic palette to evoke power and elite dedication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX7Uq9vg3-vGStsh9DlaNTGMuA1KntHOOsIbEhVURqcQQOL08rrKiBvqYDF3H_zhwG3r1eJUSF54Kwm1zHWBHy2mavN_WvQ1wSEKYStPAJnm4oytDGMvrzAZH3gKLposbVqPlUL2siACiWV6afWsdb-1MkmeISqXfvh1gxWbEqx0I6KVmnOoL71mk4BBb6cIEwMukE2ytYAMAqyJqvAJdGeqOfqWdEwTclPI8agbJpexG5WKLWsvoL1x-OenYgpkO8ESe6YdGDxzE"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md uppercase tracking-tighter leading-none">Flux Endure</h2>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">5.0</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">Intra-Workout Catalyst</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md">$74.00</span>
+<button class="electric-glow bg-primary text-on-primary px-4 py-2 font-label-md text-label-md uppercase tracking-widest transition-all active:scale-95">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="glass-panel group relative flex flex-col h-full overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+<div class="aspect-[4/5] w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-110" data-alt="A technical, top-down view of high-performance gear and supplement canisters organized with mathematical precision on a matte dark surface. The lighting is clinical and uniform, casting soft, thin shadows that emphasize the sharp lines of the design. The palette is dominated by deep slates, blacks, and crisp whites, creating an environment of professional excellence and high-octane focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzleZiFt_Za2g1xca6UtUFxo4ebM7gcsoTAnoBBPVK_WdtXu0IFjng-h3q6umI66Vbyvvsm4beEHGpxZMzWn7CbX-7GVlGOO7CLnEpRs2uaEtApR1XNIg0w8sSxTwMA2vYUzsYI6YaRkzYUG3TClwIf2goZYKpqxOc4GZfgxhIJTxtJLLL8XS-hyinnPbUk5QJMVJLZy0zQNkTQydtJyKIb4tGZJp5IYmekdqdewYZNtE72EpRhuCWqackzI-Q-FuB1veHq0txGE0"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md uppercase tracking-tighter leading-none">Zenith Recovery</h2>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">4.7</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">Nocturnal Repair Matrix</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md">$68.00</span>
+<button class="electric-glow bg-primary text-on-primary px-4 py-2 font-label-md text-label-md uppercase tracking-widest transition-all active:scale-95">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="glass-panel group relative flex flex-col h-full overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+<div class="absolute top-4 left-4 z-10">
+<span class="bg-primary text-on-primary font-label-sm text-label-sm px-3 py-1 uppercase tracking-widest">Top Seller</span>
+</div>
+<div class="aspect-[4/5] w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-110" data-alt="A stylized image of scientific glassware containing high-purity clear liquids, illuminated by a sharp white light from beneath. The background is a dense, textured deep slate with a 12-column grid motif subtly overlaid in the lighting. The overall visual style is uncompromising and technical, evoking the feeling of a cutting-edge performance lab where elite supplements are engineered with clinical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB04fcI7ZCBjrPy0xoLSjz2mNKeYhF3pW_4OUiz1KvctZ7mR10ehjzOQ5Zc1mhzeLJpAO-T87jLgdkyvjWW28fKQDGo3l_ewjWdTKuU1wfp2E1IEEVf9UVmdT1kl2U8teeqepHt89tJ767x53LQMY7J5CfqKaZw4H6xpbg4XqabFC5kBAcSvARRd_eyEzIdnFj3NKf8lbLy3tRda6gngdekhWaeo9Im1nPdz9_rRgYOV9U8PE4nhkIAqQBT09jxwaX0sPhw--PvUwg"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md uppercase tracking-tighter leading-none">Ion Hydrate</h2>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">4.9</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">Electrolytic Fluid Transfer</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md">$45.00</span>
+<button class="electric-glow bg-primary text-on-primary px-4 py-2 font-label-md text-label-md uppercase tracking-widest transition-all active:scale-95">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="glass-panel group relative flex flex-col h-full overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+<div class="aspect-[4/5] w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-110" data-alt="A powerful action shot of a high-performance athlete in a moment of peak exertion, with droplets of sweat illuminated by high-intensity strobe lighting. The image is desaturated with heavy emphasis on texture and contrast, creating a gritty yet premium aesthetic. The background is a dark, expansive training arena with cold, technical lighting, embodying the high-octane energy of the elite optimizer brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANh9SDL0-7XwHqMgNGtRQU_8MkmloZhB7s2yFrfg0sQuVENdUnmDNClJlpMTSNASbdOK4ysSlTjhQUilVKPvesguEluMkeIWO4oezPOAcFGsYZc0KyaSzXPIsXSsurybp0gYm_3KUUfyw3PUO7bydyrzvGumNwEbvvjxAwuHeBskyTxFhQYy45eSyYL8BYH009H6UkFXxGO4dsXoNp-hKN_me950GjTSQY-Q7_qSDRmJ6EFkismk2ONeMdMrfH7VkXu6MEvO2FxzI"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md uppercase tracking-tighter leading-none">Core Adapt</h2>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">4.6</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">Broad Spectrum Adaptogen</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md">$55.00</span>
+<button class="electric-glow bg-primary text-on-primary px-4 py-2 font-label-md text-label-md uppercase tracking-widest transition-all active:scale-95">Add to Cart</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-16 flex justify-center">
+<button class="px-10 py-4 border-2 border-primary font-headline-md text-headline-md uppercase tracking-[0.2em] hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-95">
+                        Initialize More
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full bottom-0 bg-surface-container-lowest border-t border-outline-variant/20">
+<div class="w-full py-base px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter max-w-container-max mx-auto py-12">
+<div class="font-headline-md text-headline-md font-black text-primary">
+                ELITE OPTIMIZER
+            </div>
+<div class="flex gap-8">
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors" href="#">Terms</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors" href="#">Wholesale</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<div class="text-on-surface-variant font-label-sm text-label-sm uppercase opacity-50">
+                © 2024 ELITE OPTIMIZER. ALL RIGHTS RESERVED.
+            </div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+
+        // Simple range filter display update
+        const range = document.querySelector('input[type="range"]');
+        if (range) {
+            range.addEventListener('input', (e) => {
+                const val = e.target.value;
+                const display = e.target.nextElementSibling.querySelector('span:last-child');
+                display.innerText = `$${val}${val == 200 ? '+' : ''}`;
+            });
+        }
+    </script>
+</body></html>
