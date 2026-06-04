@@ -31,6 +31,7 @@ Route::delete('cart/{product}', [\App\Http\Controllers\CartController::class, 'd
 
 Route::get('checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('checkout', [\App\Http\Controllers\CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('commande/confirmation/{order}', [\App\Http\Controllers\OrderConfirmationController::class, 'show'])->name('order.confirmation');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');

@@ -9,7 +9,6 @@ use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class CheckoutController extends Controller
@@ -125,6 +124,15 @@ class CheckoutController extends Controller
 
             return $order;
         });
+
+        if ($request->user()) {
+            $this->cartService->clearDatabaseCart($request->user());
+        }
+
+        $this->cartService->clearSessionCart($request);
+
+        return redirect()->route('order.confirmation', ['order' => $order->id])
+            ->with('status', 'Votre commande a été passée avec succès.');
 
 }
 

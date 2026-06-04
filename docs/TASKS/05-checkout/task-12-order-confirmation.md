@@ -30,4 +30,4 @@ Show a confirmation page after successful order placement with order details and
 2–3 hours
 
 ## Status
-⬜ Not Started
+✅ Completed
