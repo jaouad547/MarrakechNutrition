@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -72,45 +73,64 @@ class CheckoutController extends Controller
                     'quantity' => $item['quantity'],
                 ];
             })
-            ->filter(fn ($item) => $item['product'] && $item['product']->is_active && $item['product']->stock > 0)
-            ->map(function ($item) {
-                $item['quantity'] = min($item['quantity'], $item['product']->stock);
-                return $item;
-            });
+            ->filter(fn ($item) => $item['product'] && $item['product']->is_active)
+            ->values();
 
         if ($items->isEmpty()) {
             return redirect()->route('cart.index')->with('status', 'Aucun produit actif n’est disponible dans votre panier.');
         }
 
-        $subtotal = $items->sum(fn ($item) => $item['product']->price * $item['quantity']);
+        $insufficientStock = $items->first(fn ($item) => $item['quantity'] > $item['product']->stock);
+
+        if ($insufficientStock) {
+            return redirect()->route('cart.index')->with('status', 'Stock insuffisant pour le produit : ' . $insufficientStock['product']->name);
+        }
+
         $deliveryFee = 20.00;
-        $total = $subtotal + $deliveryFee;
 
-        $order = Order::create([
-            'user_id' => Auth::id(),
-            'order_number' => 'MN-' . Str::upper(Str::random(8)),
-            'total' => $total,
-            'delivery_address' => $validated['address'],
-            'phone' => $validated['phone'],
-            'status' => 'pending',
-            'payment_method' => 'Paiement à la livraison',
-        ]);
+        $order = DB::transaction(function () use ($validated, $items, $deliveryFee, $request) {
+            $subtotal = $items->sum(fn ($item) => $item['product']->price * $item['quantity']);
+            $total = $subtotal + $deliveryFee;
 
-        foreach ($items as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product']->id,
-                'quantity' => $item['quantity'],
-                'price' => $item['product']->price,
+            $orderNumber = $this->generateOrderNumber();
+
+            $order = Order::create([
+                'user_id' => Auth::id(),
+                'customer_name' => $validated['name'],
+                'order_number' => $orderNumber,
+                'total' => $total,
+                'delivery_address' => $validated['address'],
+                'phone' => $validated['phone'],
+                'status' => 'Pending payment on delivery',
+                'payment_method' => 'Paiement à la livraison',
             ]);
-        }
 
-        $request->session()->forget('cart.items');
+            foreach ($items as $item) {
+                $product = $item['product'];
+                $quantity = $item['quantity'];
 
-        if ($request->user()) {
-            $this->cartService->clearDatabaseCart($request->user());
-        }
+                if ($product->stock < $quantity) {
+                    throw new \Exception('Stock insuffisant pour le produit : ' . $product->name);
+                }
 
-        return redirect()->route('home')->with('status', 'Commande passée avec succès.');
+                $product->decrement('stock', $quantity);
+
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                    'price' => $product->price,
+                ]);
+            }
+
+            return $order;
+        });
+
+}
+
+    private function generateOrderNumber(): string
+    {
+        $count = Order::whereDate('created_at', now()->toDateString())->count() + 1;
+        return sprintf('ORD-%s-%03d', now()->format('Ymd'), $count);
     }
 }
