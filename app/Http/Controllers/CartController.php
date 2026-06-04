@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CartController extends Controller
 {
+    public function __construct(private CartService $cartService)
+    {
+    }
+
     public function index(Request $request)
     {
+        if ($request->user()) {
+            $this->cartService->syncSessionCartFromDatabase($request->user(), $request);
+        }
+
         $items = collect($request->session()->get('cart.items', []))
             ->map(fn ($item) => [
                 'id' => $item['id'],
@@ -57,6 +66,10 @@ class CartController extends Controller
         $cartItems[$product->id] = $this->makeCartItem($product, $newQuantity);
         $request->session()->put('cart.items', $cartItems);
 
+        if ($request->user()) {
+            $this->cartService->syncDatabaseCartFromItems($request->user(), array_values($cartItems));
+        }
+
         return back()->with('status', 'Produit ajouté au panier.');
     }
 
@@ -72,8 +85,12 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('status', 'Produit introuvable dans le panier.');
         }
 
-        $cartItems[$product->id] = $this->makeCartItem($product, (int) $validated['quantity']);
+        $cartItems[$product->id] = $this->cartService->makeCartItem($product, (int) $validated['quantity']);
         $request->session()->put('cart.items', $cartItems);
+
+        if ($request->user()) {
+            $this->cartService->syncDatabaseCartFromItems($request->user(), array_values($cartItems));
+        }
 
         return back()->with('status', 'Quantité mise à jour.');
     }
@@ -85,6 +102,10 @@ class CartController extends Controller
         if (isset($cartItems[$product->id])) {
             unset($cartItems[$product->id]);
             $request->session()->put('cart.items', $cartItems);
+
+            if ($request->user()) {
+                $this->cartService->syncDatabaseCartFromItems($request->user(), array_values($cartItems));
+            }
         }
 
         return back()->with('status', 'Produit retiré du panier.');

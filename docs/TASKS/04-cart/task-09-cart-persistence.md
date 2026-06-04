@@ -10,14 +10,14 @@ Synchronize cart data between session and database for authenticated users so th
 - [Task 08: Cart Session](../04-cart/task-08-cart-session.md)
 
 ## Acceptance Criteria
-- [ ] Guest cart items are transferred to the user's database cart upon login
-- [ ] Authenticated user's cart is saved to the database after each modification
-- [ ] Cart items are loaded from the database when an authenticated user visits the site
-- [ ] Merging session cart with database cart handles duplicate items by summing quantities
-- [ ] Merged quantities respect stock limits
-- [ ] User's database cart is accessible from any device after logging in
-- [ ] Cart data survives browser restart when user is logged in
-- [ ] On logout, the cart clears from session but remains in database for next login
+- [x] Guest cart items are transferred to the user's database cart upon login
+- [x] Authenticated user's cart is saved to the database after each modification
+- [x] Cart items are loaded from the database when an authenticated user visits the site
+- [x] Merging session cart with database cart handles duplicate items by summing quantities
+- [x] Merged quantities respect stock limits
+- [x] User's database cart is accessible from any device after logging in
+- [x] Cart data survives browser restart when user is logged in
+- [x] On logout, the cart clears from session but remains in database for next login
 
 ## Files to Create / Modify
 - Cart database model
@@ -29,4 +29,4 @@ Synchronize cart data between session and database for authenticated users so th
 2–3 hours
 
 ## Status
-⬜ Not Started
+✅ Completed

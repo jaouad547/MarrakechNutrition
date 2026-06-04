@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Category;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Middleware;
@@ -55,6 +56,13 @@ class HandleInertiaRequests extends Middleware
                 ->all();
         }
 
+        $cartItems = $request->session()->get('cart.items', []);
+
+        if ($request->user()) {
+            $cartService = app(CartService::class);
+            $cartItems = $cartService->syncSessionCartFromDatabase($request->user(), $request);
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
@@ -62,7 +70,8 @@ class HandleInertiaRequests extends Middleware
             ],
             'categories' => $categories,
             'cart' => [
-                'count' => fn () => array_sum(array_column($request->session()->get('cart.items', []), 'quantity')),
+                'items' => fn () => $cartItems,
+                'count' => fn () => array_sum(array_column($cartItems, 'quantity')),
             ],
             'flash' => [
                 'status' => fn () => $request->session()->get('status'),

@@ -17,6 +17,11 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public function cart()
+    {
+        return $this->hasOne(\App\Models\Cart::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

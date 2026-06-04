@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,6 +44,10 @@ class RegisteredUserController extends Controller
         ]);
 
         Auth::login($user);
+
+        $cartService = app(CartService::class);
+        $cartService->mergeSessionCartToDatabase($user, $request->session()->get('cart.items', []));
+        $cartService->syncSessionCartFromDatabase($user, $request);
 
         return redirect()->route('home');
     }
