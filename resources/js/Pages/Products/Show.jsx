@@ -1,10 +1,20 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import Layout from '../../Components/Layout';
 import ProductCard from '../../Components/ProductCard';
 
 export default function Show({ product, related }) {
     const price = Number(product.price).toFixed(2).replace('.', ',');
+    const { data, setData, post, processing, errors } = useForm({
+        quantity: 1,
+    });
+
+    const submit = (event) => {
+        event.preventDefault();
+        post(route('cart.store', product.slug), {
+            preserveScroll: true,
+        });
+    };
 
     return (
         <Layout>
@@ -28,7 +38,35 @@ export default function Show({ product, related }) {
 
                         <div className="prose mb-6">{product.description}</div>
 
-                        <button className="bg-green-600 text-white px-4 py-2 rounded-md">Ajouter au panier</button>
+                        <form onSubmit={submit} className="grid gap-4 sm:grid-cols-[auto_1fr] sm:items-end sm:gap-3">
+                            <div>
+                                <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
+                                    Quantité
+                                </label>
+                                <input
+                                    id="quantity"
+                                    type="number"
+                                    min="1"
+                                    max={product.stock}
+                                    value={data.quantity}
+                                    onChange={(e) => setData('quantity', Number(e.target.value))}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600"
+                                />
+                                {errors.quantity && <p className="mt-1 text-sm text-red-600">{errors.quantity}</p>}
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <button
+                                    type="submit"
+                                    disabled={product.stock <= 0 || processing}
+                                    className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700 disabled:opacity-50"
+                                >
+                                    Ajouter au panier
+                                </button>
+                                {product.stock <= 0 && (
+                                    <div className="text-sm text-red-600">Ce produit est en rupture de stock.</div>
+                                )}
+                            </div>
+                        </form>
                     </div>
                 </div>
 

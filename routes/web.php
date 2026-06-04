@@ -24,6 +24,11 @@ Route::get('categories/{category}', [\App\Http\Controllers\CategoryController::c
 Route::get('products', [\App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
 Route::get('products/{product}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 
+Route::get('cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+Route::post('cart', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
+Route::put('cart/{product}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+Route::delete('cart/{product}', [\App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('categories/create', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])->name('categories.create');

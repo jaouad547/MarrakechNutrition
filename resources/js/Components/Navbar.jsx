@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
 
 export default function Navbar() {
-    const { auth, categories } = usePage().props;
+    const { auth, categories, cart } = usePage().props;
 
     return (
         <>
@@ -17,6 +17,14 @@ export default function Navbar() {
                             </div>
                         </div>
                         <div className="flex items-center space-x-4">
+                            <Link href={route('cart.index')} className="relative text-gray-500 hover:text-gray-700">
+                                Panier
+                                {cart?.count > 0 && (
+                                    <span className="absolute -right-3 -top-2 inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-green-600 px-2 text-xs font-semibold text-white">
+                                        {cart.count}
+                                    </span>
+                                )}
+                            </Link>
                             {auth.user ? (
                                 <>
                                     <span className="text-gray-700">Bonjour, {auth.user.name}</span>

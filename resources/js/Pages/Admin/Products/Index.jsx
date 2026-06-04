@@ -1,6 +1,6 @@
 import React from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
-import Layout from '../../../../Components/Layout';
+import Layout from '../../../Components/Layout';
 
 export default function Index() {
     const { products, filters } = usePage().props;
