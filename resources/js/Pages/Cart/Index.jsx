@@ -73,9 +73,17 @@ export default function Index({ items, subtotal, total, itemCount }) {
                                 <div className="text-sm text-gray-500">Sous-total</div>
                                 <div className="text-2xl font-semibold text-gray-900">{formatPrice(subtotal)} DH</div>
                             </div>
-                            <div>
-                                <div className="text-sm text-gray-500">Total</div>
-                                <div className="text-2xl font-semibold text-gray-900">{formatPrice(total)} DH</div>
+                            <div className="space-y-3 text-right">
+                                <div>
+                                    <div className="text-sm text-gray-500">Total</div>
+                                    <div className="text-2xl font-semibold text-gray-900">{formatPrice(total)} DH</div>
+                                </div>
+                                <Link
+                                    href={route('checkout.index')}
+                                    className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                                >
+                                    Passer à la livraison
+                                </Link>
                             </div>
                         </div>
                     </div>

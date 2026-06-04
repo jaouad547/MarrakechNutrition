@@ -118,6 +118,20 @@ class CartService
         ]);
     }
 
+    public function clearSessionCart(Request $request): void
+    {
+        $request->session()->forget('cart.items');
+    }
+
+    public function clearDatabaseCart(User $user): void
+    {
+        $cart = Cart::firstWhere('user_id', $user->id);
+
+        if ($cart) {
+            $cart->items()->delete();
+        }
+    }
+
     public function makeCartItem(Product $product, int $quantity): array
     {
         return [
