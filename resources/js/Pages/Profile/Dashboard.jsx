@@ -38,6 +38,9 @@ export default function Dashboard({ user, ordersCount, latestOrder }) {
                         <Link href={route('profile.edit')} className="block rounded-md border border-gray-200 bg-white px-4 py-3 text-center text-sm font-semibold text-gray-900 hover:bg-gray-50">
                             Modifier mon profil
                         </Link>
+                        <Link href={route('profile.orders')} className="block rounded-md border border-gray-200 bg-white px-4 py-3 text-center text-sm font-semibold text-gray-900 hover:bg-gray-50">
+                            Voir mes commandes
+                        </Link>
                         <Link href={route('cart.index')} className="block rounded-md border border-gray-200 bg-white px-4 py-3 text-center text-sm font-semibold text-gray-900 hover:bg-gray-50">
                             Voir mon panier
                         </Link>

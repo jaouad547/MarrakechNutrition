@@ -10,14 +10,14 @@ Create a personal dashboard where authenticated clients can view their account s
 - [Task 03: Authentication System](../02-authentication/task-03-auth-system.md)
 
 ## Acceptance Criteria
-- [ ] Authenticated users can access the client dashboard via a "My Account" link
-- [ ] Dashboard shows a greeting with the user's name
-- [ ] Dashboard displays a summary card with total orders placed
-- [ ] Dashboard displays a summary card with the most recent order status
-- [ ] Dashboard provides navigation links to order history and profile settings
-- [ ] Dashboard layout uses a sidebar navigation on desktop and a tabbed layout on mobile
-- [ ] Client area routes are protected and redirect unauthenticated users to login
-- [ ] Admin users accessing the client area are redirected to the admin dashboard
+ - [x] Authenticated users can access the client dashboard via a "Mon compte" link
+ - [x] Dashboard shows a greeting with the user's name
+ - [x] Dashboard displays a summary card with total orders placed
+ - [x] Dashboard displays a summary card with the most recent order status
+ - [x] Dashboard provides navigation links to order history and profile settings
+ - [x] Dashboard layout uses a sidebar navigation on desktop and a tabbed layout on mobile
+ - [x] Client area routes are protected and redirect unauthenticated users to login
+ - [x] Admin users accessing the client area are redirected to the admin dashboard
 
 ## Files to Create / Modify
 - Client dashboard page component
@@ -30,7 +30,7 @@ Create a personal dashboard where authenticated clients can view their account s
 2–3 hours
 
 ## Status
-⬛ In Progress
+✅ Completed
 
 ## Notes
 - Implementation TODOs:

@@ -27,6 +27,9 @@ export default function Navbar() {
                             </Link>
                             {auth.user ? (
                                 <>
+                                    <Link href={route('profile.dashboard')} className="text-gray-500 hover:text-gray-700">
+                                        Mon compte
+                                    </Link>
                                     <span className="text-gray-700">Bonjour, {auth.user.name}</span>
                                     {auth.user.role === 'admin' && (
                                         <Link href={route('admin.categories.index')} className="text-gray-500 hover:text-gray-700">

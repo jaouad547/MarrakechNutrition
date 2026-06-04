@@ -34,4 +34,32 @@ class ClientAreaController extends Controller
             ] : null,
         ]);
     }
+
+    public function orders()
+    {
+        $user = Auth::user();
+
+        if (! $user) {
+            return redirect()->route('login');
+        }
+
+        if ($user->role === 'admin') {
+            return redirect('/admin');
+        }
+
+        $orders = Order::where('user_id', $user->id)
+            ->orderByDesc('created_at')
+            ->get()
+            ->map(fn($o) => [
+                'id' => $o->id,
+                'order_number' => $o->order_number,
+                'status' => $o->status,
+                'total' => $o->total,
+                'created_at' => $o->created_at->format('d/m/Y'),
+            ]);
+
+        return Inertia::render('Profile/Orders', [
+            'orders' => $orders,
+        ]);
+    }
 }
