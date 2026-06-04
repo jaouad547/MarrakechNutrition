@@ -30,4 +30,12 @@ Create a personal dashboard where authenticated clients can view their account s
 2–3 hours
 
 ## Status
-⬜ Not Started
+⬛ In Progress
+
+## Notes
+- Implementation TODOs:
+	- Create `resources/js/Pages/Profile/Dashboard.jsx` using the shared `Layout` and `Profile/Edit` styles.
+	- Add `ClientAreaController` to return Inertia dashboard view and protect with `auth` middleware.
+	- Add routes under `/compte` prefix: dashboard, order history, order detail.
+	- Ensure admin users are redirected to `/admin` when accessing client area.
+	- Wire navigation link in site header to `route('profile.dashboard')` for authenticated users.

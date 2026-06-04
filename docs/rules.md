@@ -26,6 +26,12 @@ All project documentation lives in `docs/`. Read these files before starting any
 3. Read the specific `docs/TASKS/XX-name/task-NN-*.md` file for acceptance criteria
 4. Check `docs/DESIGN/*.html` for the relevant page mockup
 
+### Client Area Routing
+
+- Prefix client area routes with `/compte` (French pathnames). Example: `/compte`, `/compte/commandes`, `/compte/commandes/{id}`.
+- Protect client area routes with Laravel `auth` middleware. Redirect unauthenticated users to `/login`.
+- Redirect admin users attempting to access the client area to the admin dashboard (`/admin`).
+
 ### While Working
 - Write code in the main project root (not in `docs/`)
 - Follow the design tokens from `docs/DESIGN/DESIGN.md`
