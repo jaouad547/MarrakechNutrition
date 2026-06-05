@@ -42,8 +42,8 @@ class HandleInertiaRequests extends Middleware
 
         if (Schema::hasTable('categories')) {
             $categories = Category::query()
+                ->whereHas('products', fn ($query) => $query->where('is_active', true))
                 ->withCount(['products' => fn ($query) => $query->where('is_active', true)])
-                ->having('products_count', '>', 0)
                 ->orderBy('name')
                 ->get(['id', 'name', 'slug'])
                 ->map(fn ($category) => [

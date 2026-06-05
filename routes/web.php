@@ -59,4 +59,6 @@ Route::middleware('auth')->group(function () {
     // Client area: dashboard and account routes
     Route::get('compte', [\App\Http\Controllers\ClientAreaController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('compte/commandes', [\App\Http\Controllers\ClientAreaController::class, 'orders'])->name('profile.orders');
+    Route::get('compte/commandes/{order}', [\App\Http\Controllers\ClientAreaController::class, 'showOrder'])->name('profile.orders.show');
 });
+
