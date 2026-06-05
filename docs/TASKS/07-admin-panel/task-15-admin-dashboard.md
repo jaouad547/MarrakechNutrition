@@ -10,16 +10,16 @@ Build an administrative dashboard with summary statistics and navigation to prod
 - [Task 03: Authentication System](../02-authentication/task-03-auth-system.md)
 
 ## Acceptance Criteria
-- [ ] Admin dashboard is accessible only to users with admin role
-- [ ] Dashboard displays total number of registered users
-- [ ] Dashboard displays total number of products
-- [ ] Dashboard displays total number of orders
-- [ ] Dashboard displays total revenue from all orders
-- [ ] Dashboard shows a list of recent orders with status indicators
-- [ ] Dashboard shows low-stock product alerts
-- [ ] Dashboard includes navigation sidebar to products, orders, categories, and users sections
-- [ ] Non-admin users accessing admin routes are redirected to the home page
-- [ ] Unauthenticated users accessing admin routes are redirected to login
+- [x] Admin dashboard is accessible only to users with admin role
+- [x] Dashboard displays total number of registered users
+- [x] Dashboard displays total number of products
+- [x] Dashboard displays total number of orders
+- [x] Dashboard displays total revenue from all orders
+- [x] Dashboard shows a list of recent orders with status indicators
+- [x] Dashboard shows low-stock product alerts
+- [x] Dashboard includes navigation sidebar to products, orders, categories, and users sections
+- [x] Non-admin users accessing admin routes are redirected to the home page
+- [x] Unauthenticated users accessing admin routes are redirected to login
 
 ## Files to Create / Modify
 - Admin dashboard page component
@@ -33,4 +33,5 @@ Build an administrative dashboard with summary statistics and navigation to prod
 3–4 hours
 
 ## Status
-⬜ Not Started
+✅ Completed
+
