@@ -8,11 +8,19 @@ export default function Index({ products, categories, filters }) {
         <Layout>
             <Head title="Produits" />
             <div className="max-w-7xl mx-auto py-8 px-4">
-                <div className="mb-6 flex items-center justify-between">
+                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <h1 className="text-2xl font-bold">Produits</h1>
                     <form method="get" action={route('products.index')} className="flex items-center gap-2">
-                        <input type="search" name="search" defaultValue={filters.search} placeholder="Rechercher" className="rounded-md border px-3 py-2" />
-                        <button className="bg-gray-100 px-3 py-2 rounded-md">Rechercher</button>
+                        <input
+                            type="search"
+                            name="search"
+                            defaultValue={filters.search}
+                            placeholder="Rechercher un produit"
+                            className="rounded-md border px-3 py-2 w-full sm:w-auto min-h-[44px] text-sm"
+                        />
+                        <button className="bg-gray-100 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200 min-h-[44px] shrink-0">
+                            Rechercher
+                        </button>
                     </form>
                 </div>
 

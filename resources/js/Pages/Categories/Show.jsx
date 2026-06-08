@@ -20,7 +20,7 @@ export default function Show({ category }) {
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid gap-6 md:grid-cols-3">
+                    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                         {category.products.map((product) => (
                             <div key={product.id} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
                                 <div className="h-40 w-full overflow-hidden rounded-lg bg-gray-100 mb-4">
