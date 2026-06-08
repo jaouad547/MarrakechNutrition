@@ -1,6 +1,6 @@
 import React from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import Layout from '../../../Components/Layout';
+import AdminLayout from '../../../Components/AdminLayout';
 
 export default function Create({ categories }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -18,123 +18,156 @@ export default function Create({ categories }) {
         post(route('admin.products.store'));
     };
 
+    const inputClass =
+        'mt-1 block w-full bg-[#081425] border border-[#44483b]/30 text-[#d8e3fb] text-sm px-3 py-2 focus:outline-none focus:border-[#ceee93]/50 placeholder-[#44483b]';
+    const labelClass = 'block text-xs font-bold uppercase tracking-wider text-[#c5c8b7]';
+    const errorClass = 'text-red-400 text-xs mt-1';
+
     return (
-        <Layout>
+        <AdminLayout title="Nouveau produit">
             <Head title="Nouveau produit" />
-            <div className="max-w-3xl mx-auto py-8">
-                <div className="mb-6 flex items-center justify-between">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Créer un produit</h1>
-                        <p className="text-gray-600">Ajoutez un produit avec image, catégorie et disponibilité.</p>
-                    </div>
-                    <Link href={route('admin.products.index')} className="text-green-600 hover:text-green-700">
-                        Retour à la liste
-                    </Link>
+
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h1 className="text-2xl font-black uppercase text-white font-serif tracking-tight">
+                        Créer un produit
+                    </h1>
+                    <p className="text-[#c5c8b7] text-xs uppercase tracking-wider mt-1">
+                        Ajoutez un produit avec image, catégorie et disponibilité.
+                    </p>
+                </div>
+                <Link
+                    href={route('admin.products.index')}
+                    className="text-xs font-bold uppercase text-[#c5c8b7] hover:text-white border border-[#44483b]/30 px-3 py-1.5 transition"
+                >
+                    ← Retour à la liste
+                </Link>
+            </div>
+
+            <form
+                onSubmit={submit}
+                className="space-y-6 bg-[#152031] border border-[#44483b]/20 p-8"
+                encType="multipart/form-data"
+            >
+                {/* Name */}
+                <div>
+                    <label className={labelClass}>Nom *</label>
+                    <input
+                        type="text"
+                        value={data.name}
+                        onChange={(e) => setData('name', e.target.value)}
+                        className={inputClass}
+                        required
+                    />
+                    {errors.name && <p className={errorClass}>{errors.name}</p>}
                 </div>
 
-                <form onSubmit={submit} className="space-y-6 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                {/* Description */}
+                <div>
+                    <label className={labelClass}>Description</label>
+                    <textarea
+                        value={data.description}
+                        onChange={(e) => setData('description', e.target.value)}
+                        className={inputClass}
+                        rows={4}
+                    />
+                    {errors.description && <p className={errorClass}>{errors.description}</p>}
+                </div>
+
+                {/* Price + Stock */}
+                <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Nom</label>
+                        <label className={labelClass}>Prix (MAD) *</label>
                         <input
-                            type="text"
-                            value={data.name}
-                            onChange={(e) => setData('name', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            value={data.price}
+                            onChange={(e) => setData('price', e.target.value)}
+                            className={inputClass}
                             required
                         />
-                        {errors.name && <div className="text-red-500 text-sm mt-1">{errors.name}</div>}
+                        {errors.price && <p className={errorClass}>{errors.price}</p>}
                     </div>
-
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea
-                            value={data.description}
-                            onChange={(e) => setData('description', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-                            rows="4"
-                        />
-                        {errors.description && <div className="text-red-500 text-sm mt-1">{errors.description}</div>}
-                    </div>
-
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Prix (MAD)</label>
-                            <input
-                                type="number"
-                                step="0.01"
-                                value={data.price}
-                                onChange={(e) => setData('price', e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-                                required
-                            />
-                            {errors.price && <div className="text-red-500 text-sm mt-1">{errors.price}</div>}
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Stock</label>
-                            <input
-                                type="number"
-                                value={data.stock}
-                                onChange={(e) => setData('stock', e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
-                                min="0"
-                                required
-                            />
-                            {errors.stock && <div className="text-red-500 text-sm mt-1">{errors.stock}</div>}
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Catégorie</label>
-                        <select
-                            value={data.category_id}
-                            onChange={(e) => setData('category_id', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2"
+                        <label className={labelClass}>Stock *</label>
+                        <input
+                            type="number"
+                            min="0"
+                            value={data.stock}
+                            onChange={(e) => setData('stock', e.target.value)}
+                            className={inputClass}
                             required
-                        >
-                            {categories.map((category) => (
-                                <option key={category.id} value={category.id}>
-                                    {category.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.category_id && <div className="text-red-500 text-sm mt-1">{errors.category_id}</div>}
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Image</label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => setData('image', e.target.files[0])}
-                            className="mt-1 block w-full text-gray-700"
                         />
-                        {errors.image && <div className="text-red-500 text-sm mt-1">{errors.image}</div>}
+                        {errors.stock && <p className={errorClass}>{errors.stock}</p>}
                     </div>
+                </div>
 
-                    <div className="flex items-center gap-3">
-                        <input
-                            id="is_active"
-                            type="checkbox"
-                            checked={data.is_active}
-                            onChange={(e) => setData('is_active', e.target.checked)}
-                            className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                        />
-                        <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
-                            Produit actif
-                        </label>
-                    </div>
+                {/* Category */}
+                <div>
+                    <label className={labelClass}>Catégorie *</label>
+                    <select
+                        value={data.category_id}
+                        onChange={(e) => setData('category_id', e.target.value)}
+                        className={inputClass}
+                        required
+                    >
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.category_id && <p className={errorClass}>{errors.category_id}</p>}
+                </div>
 
-                    <div className="pt-4">
-                        <button
-                            type="submit"
-                            disabled={processing}
-                            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                        >
-                            Enregistrer
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </Layout>
+                {/* Image */}
+                <div>
+                    <label className={labelClass}>Image</label>
+                    <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
+                        onChange={(e) => setData('image', e.target.files[0] ?? null)}
+                        className="mt-1 block w-full text-xs text-[#c5c8b7] file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:uppercase file:bg-[#2a3548] file:text-[#d8e3fb] hover:file:bg-[#1f2a3c] file:cursor-pointer"
+                    />
+                    <p className="text-[#44483b] text-[10px] mt-1 uppercase">
+                        JPEG, PNG, GIF, WEBP — 2 Mo max
+                    </p>
+                    {errors.image && <p className={errorClass}>{errors.image}</p>}
+                </div>
+
+                {/* Active */}
+                <div className="flex items-center gap-3">
+                    <input
+                        id="is_active"
+                        type="checkbox"
+                        checked={data.is_active}
+                        onChange={(e) => setData('is_active', e.target.checked)}
+                        className="h-4 w-4 border-[#44483b] bg-[#081425] text-[#ceee93] focus:ring-[#ceee93]/30"
+                    />
+                    <label htmlFor="is_active" className={labelClass}>
+                        Produit actif (visible en boutique)
+                    </label>
+                </div>
+
+                {/* Submit */}
+                <div className="pt-2 flex items-center gap-4">
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="px-6 py-2.5 bg-[#ceee93] text-[#243600] text-xs font-bold uppercase hover:brightness-110 transition disabled:opacity-50"
+                    >
+                        {processing ? 'Enregistrement…' : 'Enregistrer le produit'}
+                    </button>
+                    <Link
+                        href={route('admin.products.index')}
+                        className="text-xs font-bold uppercase text-[#c5c8b7] hover:text-white transition"
+                    >
+                        Annuler
+                    </Link>
+                </div>
+            </form>
+        </AdminLayout>
     );
 }

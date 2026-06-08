@@ -16,9 +16,14 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $categoryFilter = $request->input('category');
+        $statusFilter = $request->input('status'); // 'active', 'inactive', or null (all)
 
         $products = Product::with('category')
-            ->when($search, fn ($query, $value) => $query->where('name', 'like', "%{$value}%"))
+            ->when($search, fn ($q, $v) => $q->where('name', 'like', "%{$v}%"))
+            ->when($categoryFilter, fn ($q, $v) => $q->where('category_id', $v))
+            ->when($statusFilter === 'active', fn ($q) => $q->where('is_active', true))
+            ->when($statusFilter === 'inactive', fn ($q) => $q->where('is_active', false))
             ->orderBy('name')
             ->paginate(10)
             ->withQueryString();
@@ -28,14 +33,19 @@ class ProductController extends Controller
                 'id' => $product->id,
                 'name' => $product->name,
                 'slug' => $product->slug,
+                'image' => $product->image,
                 'category' => $product->category?->name,
+                'category_id' => $product->category_id,
                 'price' => $product->price,
                 'stock' => $product->stock,
                 'is_active' => $product->is_active,
             ]),
             'filters' => [
                 'search' => $search,
+                'category' => $categoryFilter,
+                'status' => $statusFilter,
             ],
+            'categories' => Category::orderBy('name')->get(['id', 'name']),
         ]);
     }
 
@@ -124,6 +134,26 @@ class ProductController extends Controller
         $product->delete();
 
         return Redirect::route('admin.products.index')->with('status', 'Produit supprimé.');
+    }
+
+    public function toggleActive(Product $product)
+    {
+        $product->update(['is_active' => ! $product->is_active]);
+
+        $label = $product->is_active ? 'activé' : 'désactivé';
+
+        return back()->with('status', "Produit {$label} avec succès.");
+    }
+
+    public function updateStock(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        $product->update(['stock' => $validated['stock']]);
+
+        return back()->with('status', 'Stock mis à jour.');
     }
 
     protected function generateUniqueSlug(string $name, ?int $ignoreId = null): string

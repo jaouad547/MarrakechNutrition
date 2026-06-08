@@ -49,8 +49,8 @@ class ClientAreaController extends Controller
 
         $orders = Order::where('user_id', $user->id)
             ->orderByDesc('created_at')
-            ->paginate(10)
-            ->through(fn($o) => [
+            ->get()
+            ->map(fn($o) => [
                 'id' => $o->id,
                 'order_number' => $o->order_number,
                 'status' => $o->status,
@@ -60,47 +60,6 @@ class ClientAreaController extends Controller
 
         return Inertia::render('Profile/Orders', [
             'orders' => $orders,
-        ]);
-    }
-
-    public function showOrder(Order $order)
-    {
-        $user = Auth::user();
-
-        if (! $user) {
-            return redirect()->route('login');
-        }
-
-        if ($user->role === 'admin') {
-            return redirect('/admin');
-        }
-
-        // Verify order belongs to the user
-        abort_if($order->user_id !== $user->id, 403);
-
-        $order->load(['items.product']);
-
-        return Inertia::render('Profile/OrderDetail', [
-            'order' => [
-                'id' => $order->id,
-                'order_number' => $order->order_number,
-                'customer_name' => $order->customer_name,
-                'delivery_address' => $order->delivery_address,
-                'phone' => $order->phone,
-                'status' => $order->status,
-                'payment_method' => $order->payment_method,
-                'total' => $order->total,
-                'created_at' => $order->created_at->format('d/m/Y'),
-                'items' => $order->items->map(fn ($item) => [
-                    'id' => $item->id,
-                    'product_id' => $item->product_id,
-                    'name' => $item->product?->name ?? 'Produit supprimé',
-                    'image' => $item->product?->image,
-                    'quantity' => $item->quantity,
-                    'price' => $item->price,
-                    'line_total' => round($item->price * $item->quantity, 2),
-                ])->values()->all(),
-            ],
         ]);
     }
 }

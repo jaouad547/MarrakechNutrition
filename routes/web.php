@@ -34,8 +34,6 @@ Route::post('checkout', [\App\Http\Controllers\CheckoutController::class, 'store
 Route::get('commande/confirmation/{order}', [\App\Http\Controllers\OrderConfirmationController::class, 'show'])->name('order.confirmation');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-
     Route::get('categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('categories/create', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])->name('categories.create');
     Route::get('categories/{category}/edit', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('categories.edit');
@@ -49,14 +47,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('products', [\App\Http\Controllers\Admin\ProductController::class, 'store'])->name('products.store');
     Route::put('products/{product}', [\App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
     Route::delete('products/{product}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.destroy');
-
-    Route::get('orders', function () {
-        return Inertia::render('Admin/Placeholder', ['title' => 'Commandes']);
-    })->name('orders.index');
-
-    Route::get('users', function () {
-        return Inertia::render('Admin/Placeholder', ['title' => 'Utilisateurs']);
-    })->name('users.index');
+    Route::patch('products/{product}/toggle', [\App\Http\Controllers\Admin\ProductController::class, 'toggleActive'])->name('products.toggle-active');
+    Route::patch('products/{product}/stock', [\App\Http\Controllers\Admin\ProductController::class, 'updateStock'])->name('products.update-stock');
 });
 
 Route::middleware('auth')->group(function () {
@@ -69,6 +61,4 @@ Route::middleware('auth')->group(function () {
     // Client area: dashboard and account routes
     Route::get('compte', [\App\Http\Controllers\ClientAreaController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('compte/commandes', [\App\Http\Controllers\ClientAreaController::class, 'orders'])->name('profile.orders');
-    Route::get('compte/commandes/{order}', [\App\Http\Controllers\ClientAreaController::class, 'showOrder'])->name('profile.orders.show');
 });
-
