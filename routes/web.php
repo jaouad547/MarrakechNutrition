@@ -27,7 +27,7 @@ Route::get('products', [\App\Http\Controllers\ProductController::class, 'index']
 Route::get('products/{product}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 
 Route::get('cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
-Route::post('cart', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
+Route::post('cart/{product}', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
 Route::put('cart/{product}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 Route::delete('cart/{product}', [\App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
 
@@ -36,6 +36,8 @@ Route::post('checkout', [\App\Http\Controllers\CheckoutController::class, 'store
 Route::get('commande/confirmation/{order}', [\App\Http\Controllers\OrderConfirmationController::class, 'show'])->name('order.confirmation');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('categories/create', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])->name('categories.create');
     Route::get('categories/{category}/edit', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('categories.edit');
@@ -68,4 +70,5 @@ Route::middleware('auth')->group(function () {
     // Client area: dashboard and account routes
     Route::get('compte', [\App\Http\Controllers\ClientAreaController::class, 'dashboard'])->name('profile.dashboard');
     Route::get('compte/commandes', [\App\Http\Controllers\ClientAreaController::class, 'orders'])->name('profile.orders');
+    Route::get('compte/commandes/{order}', [\App\Http\Controllers\ClientAreaController::class, 'orderShow'])->name('profile.order.show');
 });
