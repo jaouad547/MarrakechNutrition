@@ -8,6 +8,8 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
+Route::get('sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store']);

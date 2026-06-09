@@ -123,6 +123,7 @@ export default function AdminLayout({ children, title }) {
         <div className="bg-[#081425] text-[#d8e3fb] font-sans min-h-screen flex selection:bg-[#ceee93] selection:text-[#243600]">
             <Head>
                 <title>{title ? `${title} - Admin Panel` : 'MarrakechNutrition Admin'}</title>
+                <meta head-key="robots" name="robots" content="noindex, nofollow" />
                 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
             </Head>
 

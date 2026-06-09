@@ -76,6 +76,7 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'status' => fn () => $request->session()->get('status'),
             ],
+            'appUrl' => rtrim(config('app.url'), '/'),
         ];
     }
 }
