@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
+            'email' => __('auth.failed'),
         ])->onlyInput('email');
     }
 

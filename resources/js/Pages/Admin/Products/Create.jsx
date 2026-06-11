@@ -1,9 +1,11 @@
 import React from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AdminLayout from '../../../Components/AdminLayout';
+import { useTranslation } from '../../../Contexts/LanguageContext';
 
 export default function Create({ categories }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { t } = useTranslation();
+    const { data, setData, post, processing, errors, setError, clearErrors } = useForm({
         name: '',
         description: '',
         price: '',
@@ -12,6 +14,22 @@ export default function Create({ categories }) {
         is_active: true,
         image: null,
     });
+
+    const maxImageSize = 5 * 1024 * 1024;
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0] ?? null;
+
+        if (file && file.size > maxImageSize) {
+            setError('image', t("L'image dépasse la taille maximale autorisée de 5 Mo."));
+            e.target.value = '';
+            setData('image', null);
+            return;
+        }
+
+        clearErrors('image');
+        setData('image', file);
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -24,24 +42,24 @@ export default function Create({ categories }) {
     const errorClass = 'text-red-400 text-xs mt-1';
 
     return (
-        <AdminLayout title="Nouveau produit">
-            <Head title="Nouveau produit" />
+        <AdminLayout title={t('Nouveau produit')}>
+            <Head title={t('Nouveau produit')} />
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h1 className="text-2xl font-black uppercase text-white font-serif tracking-tight">
-                        Créer un produit
+                        {t('Créer un produit')}
                     </h1>
                     <p className="text-[#c5c8b7] text-xs uppercase tracking-wider mt-1">
-                        Ajoutez un produit avec image, catégorie et disponibilité.
+                        {t('Ajoutez un produit avec image, catégorie et disponibilité.')}
                     </p>
                 </div>
                 <Link
                     href={route('admin.products.index')}
                     className="text-xs font-bold uppercase text-[#c5c8b7] hover:text-white border border-[#44483b]/30 px-3 py-1.5 transition"
                 >
-                    ← Retour à la liste
+                    ← {t('Retour à la liste')}
                 </Link>
             </div>
 
@@ -52,7 +70,7 @@ export default function Create({ categories }) {
             >
                 {/* Name */}
                 <div>
-                    <label className={labelClass}>Nom *</label>
+                    <label className={labelClass}>{t('Nom *')}</label>
                     <input
                         type="text"
                         value={data.name}
@@ -65,7 +83,7 @@ export default function Create({ categories }) {
 
                 {/* Description */}
                 <div>
-                    <label className={labelClass}>Description</label>
+                    <label className={labelClass}>{t('Description')}</label>
                     <textarea
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
@@ -78,7 +96,7 @@ export default function Create({ categories }) {
                 {/* Price + Stock */}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                        <label className={labelClass}>Prix (MAD) *</label>
+                        <label className={labelClass}>{t('Prix (MAD) *')}</label>
                         <input
                             type="number"
                             step="0.01"
@@ -91,7 +109,7 @@ export default function Create({ categories }) {
                         {errors.price && <p className={errorClass}>{errors.price}</p>}
                     </div>
                     <div>
-                        <label className={labelClass}>Stock *</label>
+                        <label className={labelClass}>{t('Stock *')}</label>
                         <input
                             type="number"
                             min="0"
@@ -106,7 +124,7 @@ export default function Create({ categories }) {
 
                 {/* Category */}
                 <div>
-                    <label className={labelClass}>Catégorie *</label>
+                    <label className={labelClass}>{t('Catégorie *')}</label>
                     <select
                         value={data.category_id}
                         onChange={(e) => setData('category_id', e.target.value)}
@@ -124,15 +142,15 @@ export default function Create({ categories }) {
 
                 {/* Image */}
                 <div>
-                    <label className={labelClass}>Image</label>
+                    <label className={labelClass}>{t('Image')}</label>
                     <input
                         type="file"
                         accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
-                        onChange={(e) => setData('image', e.target.files[0] ?? null)}
+                        onChange={handleImageChange}
                         className="mt-1 block w-full text-xs text-[#c5c8b7] file:mr-4 file:py-2 file:px-4 file:border-0 file:text-xs file:font-bold file:uppercase file:bg-[#2a3548] file:text-[#d8e3fb] hover:file:bg-[#1f2a3c] file:cursor-pointer"
                     />
                     <p className="text-[#44483b] text-[10px] mt-1 uppercase">
-                        JPEG, PNG, GIF, WEBP — 2 Mo max
+                        {t('JPEG, PNG, GIF, WEBP — 5 Mo max')}
                     </p>
                     {errors.image && <p className={errorClass}>{errors.image}</p>}
                 </div>
@@ -147,7 +165,7 @@ export default function Create({ categories }) {
                         className="h-4 w-4 border-[#44483b] bg-[#081425] text-[#ceee93] focus:ring-[#ceee93]/30"
                     />
                     <label htmlFor="is_active" className={labelClass}>
-                        Produit actif (visible en boutique)
+                        {t('Produit actif (visible en boutique)')}
                     </label>
                 </div>
 
@@ -158,13 +176,13 @@ export default function Create({ categories }) {
                         disabled={processing}
                         className="px-6 py-2.5 bg-[#ceee93] text-[#243600] text-xs font-bold uppercase hover:brightness-110 transition disabled:opacity-50"
                     >
-                        {processing ? 'Enregistrement…' : 'Enregistrer le produit'}
+                        {processing ? t('Enregistrement…') : t('Enregistrer le produit')}
                     </button>
                     <Link
                         href={route('admin.products.index')}
                         className="text-xs font-bold uppercase text-[#c5c8b7] hover:text-white transition"
                     >
-                        Annuler
+                        {t('Annuler')}
                     </Link>
                 </div>
             </form>

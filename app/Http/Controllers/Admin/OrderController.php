@@ -75,7 +75,7 @@ class OrderController extends Controller
                 'can_cancel'     => ! in_array(strtolower($order->status), ['delivered', 'cancelled']),
                 'items'          => $order->items->map(fn ($item) => [
                     'id'           => $item->id,
-                    'product_name' => $item->product?->name ?? '(produit supprimé)',
+                    'product_name' => $item->product?->name ?? __('messages.deleted_product'),
                     'product_image' => $item->product?->image,
                     'quantity'     => $item->quantity,
                     'price'        => $item->price,
@@ -90,13 +90,13 @@ class OrderController extends Controller
         $nextStatus = self::STATUS_FLOW[strtolower($order->status)] ?? self::STATUS_FLOW[$order->status] ?? null;
 
         if (! $nextStatus) {
-            return back()->with('status', 'Ce statut ne peut plus être modifié.');
+            return back()->with('status', __('messages.order_status_locked'));
         }
 
         $order->update(['status' => $nextStatus]);
 
         return Redirect::route('admin.orders.show', $order->id)
-            ->with('status', 'Statut mis à jour avec succès.');
+            ->with('status', __('messages.order_status_updated'));
     }
 
     public function cancel(Order $order)
@@ -104,7 +104,7 @@ class OrderController extends Controller
         $statusLower = strtolower($order->status);
 
         if (in_array($statusLower, ['delivered', 'cancelled'])) {
-            return back()->with('status', 'Cette commande ne peut pas être annulée.');
+            return back()->with('status', __('messages.order_cannot_cancel'));
         }
 
         $order->load('items.product');
@@ -119,6 +119,6 @@ class OrderController extends Controller
         });
 
         return Redirect::route('admin.orders.show', $order->id)
-            ->with('status', 'Commande annulée. Les stocks ont été restaurés.');
+            ->with('status', __('messages.order_cancelled'));
     }
 }

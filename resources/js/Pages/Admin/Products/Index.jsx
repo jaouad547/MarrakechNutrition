@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AdminLayout from '../../../Components/AdminLayout';
+import { useTranslation } from '../../../Contexts/LanguageContext';
 
 function formatPrice(value) {
     return Number(value).toFixed(2).replace('.', ',') + ' DH';
 }
 
 export default function Index({ products, filters, categories }) {
+    const { t } = useTranslation();
     const [editingStock, setEditingStock] = useState(null);
 
     const toggleActive = (product) => {
@@ -26,17 +28,17 @@ export default function Index({ products, filters, categories }) {
     };
 
     return (
-        <AdminLayout title="Produits">
-            <Head title="Produits" />
+        <AdminLayout title={t('Produits')}>
+            <Head title={t('Produits')} />
 
             {/* Page header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-black uppercase text-white font-serif tracking-tight">
-                        Gestion des Produits
+                        {t('Gestion des Produits')}
                     </h1>
                     <p className="text-[#c5c8b7] text-xs uppercase tracking-wider mt-1">
-                        Gérez les produits disponibles en boutique.
+                        {t('Gérez les produits disponibles en boutique.')}
                     </p>
                 </div>
                 <Link
@@ -46,7 +48,7 @@ export default function Index({ products, filters, categories }) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
                     </svg>
-                    Nouveau produit
+                    {t('Nouveau produit')}
                 </Link>
             </div>
 
@@ -60,7 +62,7 @@ export default function Index({ products, filters, categories }) {
                     type="search"
                     name="search"
                     defaultValue={filters.search ?? ''}
-                    placeholder="Rechercher un produit..."
+                    placeholder={t('Rechercher un produit...')}
                     className="bg-[#152031] border border-[#44483b]/30 text-[#d8e3fb] text-xs px-3 py-2 focus:outline-none focus:border-[#ceee93]/50 placeholder-[#44483b]"
                 />
                 <select
@@ -69,7 +71,7 @@ export default function Index({ products, filters, categories }) {
                     className="bg-[#152031] border border-[#44483b]/30 text-[#d8e3fb] text-xs px-3 py-2 focus:outline-none focus:border-[#ceee93]/50"
                     onChange={(e) => e.target.form.submit()}
                 >
-                    <option value="">Toutes les catégories</option>
+                    <option value="">{t('Toutes les catégories')}</option>
                     {categories.map((cat) => (
                         <option key={cat.id} value={cat.id}>
                             {cat.name}
@@ -82,22 +84,22 @@ export default function Index({ products, filters, categories }) {
                     className="bg-[#152031] border border-[#44483b]/30 text-[#d8e3fb] text-xs px-3 py-2 focus:outline-none focus:border-[#ceee93]/50"
                     onChange={(e) => e.target.form.submit()}
                 >
-                    <option value="">Tous les statuts</option>
-                    <option value="active">Actif</option>
-                    <option value="inactive">Inactif</option>
+                    <option value="">{t('Tous les statuts')}</option>
+                    <option value="active">{t('Actif')}</option>
+                    <option value="inactive">{t('Inactif')}</option>
                 </select>
                 <button
                     type="submit"
                     className="px-4 py-2 bg-[#2a3548] text-[#d8e3fb] text-xs font-bold uppercase hover:bg-[#1f2a3c] transition"
                 >
-                    Filtrer
+                    {t('Filtrer')}
                 </button>
                 {(filters.search || filters.category || filters.status) && (
                     <a
                         href={route('admin.products.index')}
                         className="px-4 py-2 border border-[#44483b]/30 text-[#c5c8b7] text-xs font-bold uppercase hover:text-white transition"
                     >
-                        Réinitialiser
+                        {t('Réinitialiser')}
                     </a>
                 )}
             </form>
@@ -109,22 +111,22 @@ export default function Index({ products, filters, categories }) {
                         <thead className="bg-[#040e1f]">
                             <tr>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Produit
+                                    {t('Produit')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Catégorie
+                                    {t('Catégorie')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Prix
+                                    {t('Prix')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Stock
+                                    {t('Stock')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Statut
+                                    {t('Statut')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7] text-right">
-                                    Actions
+                                    {t('Actions')}
                                 </th>
                             </tr>
                         </thead>
@@ -135,7 +137,7 @@ export default function Index({ products, filters, categories }) {
                                         colSpan={6}
                                         className="px-6 py-12 text-center text-[#c5c8b7] text-sm"
                                     >
-                                        Aucun produit trouvé.
+                                        {t('Aucun produit trouvé.')}
                                     </td>
                                 </tr>
                             ) : (
@@ -211,14 +213,14 @@ export default function Index({ products, filters, categories }) {
                                                     <button
                                                         onClick={() => saveStock(product.id)}
                                                         className="px-2 py-1 bg-[#ceee93] text-[#243600] text-[10px] font-bold"
-                                                        title="Enregistrer"
+                                                        title={t('Enregistrer')}
                                                     >
                                                         ✓
                                                     </button>
                                                     <button
                                                         onClick={() => setEditingStock(null)}
                                                         className="px-2 py-1 border border-[#44483b]/30 text-[#c5c8b7] text-[10px] font-bold"
-                                                        title="Annuler"
+                                                        title={t('Annuler')}
                                                     >
                                                         ✕
                                                     </button>
@@ -246,7 +248,7 @@ export default function Index({ products, filters, categories }) {
                                                     <button
                                                         onClick={() => startEditStock(product)}
                                                         className="text-[#c5c8b7] hover:text-white transition"
-                                                        title="Modifier le stock"
+                                                        title={t('Modifier le stock')}
                                                     >
                                                         <svg
                                                             className="w-3 h-3"
@@ -276,7 +278,7 @@ export default function Index({ products, filters, categories }) {
                                                         : 'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-[#ceee93]/10 hover:text-[#ceee93] hover:border-[#ceee93]/30'
                                                 }`}
                                             >
-                                                {product.is_active ? 'Actif' : 'Inactif'}
+                                                {product.is_active ? t('Actif') : t('Inactif')}
                                             </button>
                                         </td>
 
@@ -286,7 +288,7 @@ export default function Index({ products, filters, categories }) {
                                                 <Link
                                                     href={route('admin.products.edit', product.id)}
                                                     className="p-2 border border-[#44483b]/30 hover:border-[#ceee93]/50 text-[#c5c8b7] hover:text-white transition"
-                                                    title="Modifier"
+                                                    title={t('Modifier')}
                                                 >
                                                     <svg
                                                         className="w-4 h-4"
@@ -309,14 +311,14 @@ export default function Index({ products, filters, categories }) {
                                                     onClick={(e) => {
                                                         if (
                                                             !window.confirm(
-                                                                `Supprimer le produit « ${product.name} » ?`,
+                                                                t('Supprimer le produit « {{name}} » ?', { name: product.name }),
                                                             )
                                                         ) {
                                                             e.preventDefault();
                                                         }
                                                     }}
                                                     className="p-2 border border-[#44483b]/30 hover:border-red-500/50 text-[#c5c8b7] hover:text-red-400 transition"
-                                                    title="Supprimer"
+                                                    title={t('Supprimer')}
                                                 >
                                                     <svg
                                                         className="w-4 h-4"
@@ -345,7 +347,7 @@ export default function Index({ products, filters, categories }) {
                 {products.last_page > 1 && (
                     <div className="px-6 py-4 border-t border-[#44483b]/20 flex flex-col sm:flex-row justify-between items-center gap-4">
                         <p className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">
-                            {products.from}–{products.to} sur {products.total} produits
+                            {t('{{from}}–{{to}} sur {{total}} produits', { from: products.from, to: products.to, total: products.total })}
                         </p>
                         <nav className="flex gap-1">
                             {products.links.map((link, index) =>

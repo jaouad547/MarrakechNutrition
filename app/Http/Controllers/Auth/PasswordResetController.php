@@ -29,6 +29,6 @@ class PasswordResetController extends Controller
         // Simulate sending an email by logging it
         Log::info('Simulated Password Reset Email Sent to: ' . $request->email);
 
-        return back()->with('status', 'Un lien de réinitialisation a été envoyé (simulé) à votre adresse e-mail.');
+        return back()->with('status', __('messages.password_reset_link_sent'));
     }
 }

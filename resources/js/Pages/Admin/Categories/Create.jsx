@@ -1,8 +1,10 @@
 import React from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Layout from '../../../Components/Layout';
+import { useTranslation } from '../../../Contexts/LanguageContext';
 
 export default function Create() {
+    const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         description: '',
@@ -15,21 +17,21 @@ export default function Create() {
 
     return (
         <Layout>
-            <Head title="Nouvelle catégorie" />
+            <Head title={t('Nouvelle catégorie')} />
             <div className="max-w-3xl mx-auto py-8">
                 <div className="mb-6 flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Créer une catégorie</h1>
-                        <p className="text-gray-600">Ajoutez une nouvelle catégorie pour organiser les produits.</p>
+                        <h1 className="text-3xl font-bold text-gray-900">{t('Créer une catégorie')}</h1>
+                        <p className="text-gray-600">{t('Ajoutez une nouvelle catégorie pour organiser les produits.')}</p>
                     </div>
                     <Link href={route('admin.categories.index')} className="text-green-600 hover:text-green-700">
-                        Retour à la liste
+                        {t('Retour à la liste')}
                     </Link>
                 </div>
 
                 <form onSubmit={submit} className="space-y-6 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Nom</label>
+                        <label className="block text-sm font-medium text-gray-700">{t('Nom')}</label>
                         <input
                             type="text"
                             value={data.name}
@@ -41,7 +43,7 @@ export default function Create() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Description</label>
+                        <label className="block text-sm font-medium text-gray-700">{t('Description')}</label>
                         <textarea
                             value={data.description}
                             onChange={(e) => setData('description', e.target.value)}
@@ -57,7 +59,7 @@ export default function Create() {
                             disabled={processing}
                             className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                         >
-                            Enregistrer
+                            {t('Enregistrer')}
                         </button>
                     </div>
                 </form>

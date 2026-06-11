@@ -45,7 +45,7 @@ class CategoryController extends Controller
 
         Category::create($data);
 
-        return Redirect::route('admin.categories.index')->with('status', 'Catégorie créée avec succès.');
+        return Redirect::route('admin.categories.index')->with('status', __('messages.category_created'));
     }
 
     public function update(Request $request, Category $category)
@@ -59,18 +59,18 @@ class CategoryController extends Controller
 
         $category->update($data);
 
-        return Redirect::route('admin.categories.index')->with('status', 'Catégorie mise à jour avec succès.');
+        return Redirect::route('admin.categories.index')->with('status', __('messages.category_updated'));
     }
 
     public function destroy(Category $category)
     {
         if ($category->products()->exists()) {
-            return Redirect::back()->withErrors(['category' => 'Impossible de supprimer une catégorie contenant des produits.']);
+            return Redirect::back()->withErrors(['category' => __('messages.category_has_products')]);
         }
 
         $category->delete();
 
-        return Redirect::route('admin.categories.index')->with('status', 'Catégorie supprimée.');
+        return Redirect::route('admin.categories.index')->with('status', __('messages.category_deleted'));
     }
 
     protected function generateUniqueSlug(string $name, ?int $ignoreId = null): string

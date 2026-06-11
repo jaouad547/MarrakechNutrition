@@ -2,14 +2,16 @@ import React from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
 import Layout from '../../Components/Layout';
 import Breadcrumb from '../../Components/Breadcrumb';
+import { useTranslation } from '../../Contexts/LanguageContext';
 
 export default function Show({ category }) {
     const { appUrl } = usePage().props;
+    const { t } = useTranslation();
     const canonicalUrl = `${appUrl}/categories/${category.slug}`;
 
     const metaDescription = category.description
         ? category.description.slice(0, 160)
-        : `Découvrez nos produits de la catégorie ${category.name} à Marrakech. Compléments alimentaires et nutrition sportive livrés à domicile.`;
+        : t('Découvrez nos produits de la catégorie {{name}} à Marrakech. Compléments alimentaires et nutrition sportive livrés à domicile.', { name: category.name });
 
     const formatPrice = (price) =>
         Number(price)
@@ -31,8 +33,8 @@ export default function Show({ category }) {
             <div className="max-w-6xl mx-auto py-8 px-4">
                 <Breadcrumb
                     items={[
-                        { label: 'Accueil', href: route('home') },
-                        { label: 'Produits', href: route('products.index') },
+                        { label: t('Accueil'), href: route('home') },
+                        { label: t('Produits'), href: route('products.index') },
                         { label: category.name },
                     ]}
                 />
@@ -47,13 +49,13 @@ export default function Show({ category }) {
                 {category.products.length === 0 ? (
                     <div className="rounded-lg border border-gray-200 bg-white p-6">
                         <p className="text-gray-700">
-                            Aucun produit actif n'est disponible dans cette catégorie pour le moment.
+                            {t("Aucun produit actif n'est disponible dans cette catégorie pour le moment.")}
                         </p>
                         <Link
                             href={route('products.index')}
-                            className="mt-4 inline-block text-green-600 hover:text-green-700"
+                            className="mt-4 inline-block text-red-600 hover:text-red-700"
                         >
-                            Voir tous les produits
+                            {t('Voir tous les produits')}
                         </Link>
                     </div>
                 ) : (
@@ -66,7 +68,7 @@ export default function Show({ category }) {
                                 itemType="https://schema.org/Product"
                             >
                                 <Link href={route('products.show', product.slug)}>
-                                    <div className="h-40 w-full overflow-hidden rounded-lg bg-gray-100 mb-4">
+                                    <div className="aspect-[3/4] w-full overflow-hidden rounded-lg bg-gray-100 mb-4">
                                         {product.image ? (
                                             <img
                                                 src={`/storage/${product.image}`}
@@ -77,7 +79,7 @@ export default function Show({ category }) {
                                             />
                                         ) : (
                                             <div className="flex h-full items-center justify-center text-gray-400">
-                                                Image indisponible
+                                                {t('Image indisponible')}
                                             </div>
                                         )}
                                     </div>
@@ -86,7 +88,7 @@ export default function Show({ category }) {
                                 <h2 className="text-lg font-semibold text-gray-900" itemProp="name">
                                     <Link
                                         href={route('products.show', product.slug)}
-                                        className="hover:text-green-600"
+                                        className="hover:text-red-600"
                                     >
                                         {product.name}
                                     </Link>
@@ -115,7 +117,7 @@ export default function Show({ category }) {
                                                 : 'bg-red-100 text-red-700'
                                         }`}
                                     >
-                                        {product.stock > 0 ? 'En stock' : 'Rupture de stock'}
+                                        {product.stock > 0 ? t('En stock') : t('Rupture de stock')}
                                     </span>
                                 </div>
                             </article>

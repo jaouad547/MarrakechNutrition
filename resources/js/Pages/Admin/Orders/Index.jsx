@@ -2,20 +2,24 @@ import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AdminLayout from '../../../Components/AdminLayout';
 import OrderStatusBadge from '../../../Components/OrderStatusBadge';
+import { useTranslation } from '../../../Contexts/LanguageContext';
 
 function formatPrice(value) {
     return Number(value).toFixed(2).replace('.', ',') + ' DH';
 }
 
-const STATUS_LABELS = {
-    'Pending payment on delivery': 'En attente',
-    preparing: 'En préparation',
-    'in delivery': 'En cours de livraison',
-    delivered: 'Livré',
-    cancelled: 'Annulé',
-};
+const getStatusLabels = (t) => ({
+    'Pending payment on delivery': t('En attente'),
+    preparing: t('En préparation'),
+    'in delivery': t('En cours de livraison'),
+    delivered: t('Livré'),
+    cancelled: t('Annulé'),
+});
 
 export default function Index({ orders, filters, statuses }) {
+    const { t } = useTranslation();
+    const STATUS_LABELS = getStatusLabels(t);
+
     const toggleSort = () => {
         const params = new URLSearchParams(window.location.search);
         params.set('sort', filters.sort === 'asc' ? 'desc' : 'asc');
@@ -24,17 +28,17 @@ export default function Index({ orders, filters, statuses }) {
     };
 
     return (
-        <AdminLayout title="Commandes">
-            <Head title="Commandes" />
+        <AdminLayout title={t('Commandes')}>
+            <Head title={t('Commandes')} />
 
             {/* Page header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-black uppercase text-white font-serif tracking-tight">
-                        Gestion des Commandes
+                        {t('Gestion des Commandes')}
                     </h1>
                     <p className="text-[#c5c8b7] text-xs uppercase tracking-wider mt-1">
-                        Suivez et gérez les commandes clients.
+                        {t('Suivez et gérez les commandes clients.')}
                     </p>
                 </div>
             </div>
@@ -53,7 +57,7 @@ export default function Index({ orders, filters, statuses }) {
                     className="bg-[#152031] border border-[#44483b]/30 text-[#d8e3fb] text-xs px-3 py-2 focus:outline-none focus:border-[#ceee93]/50"
                     onChange={(e) => e.target.form.submit()}
                 >
-                    <option value="">Tous les statuts</option>
+                    <option value="">{t('Tous les statuts')}</option>
                     {statuses.map((s) => (
                         <option key={s} value={s}>
                             {STATUS_LABELS[s] ?? s}
@@ -66,7 +70,7 @@ export default function Index({ orders, filters, statuses }) {
                     onClick={toggleSort}
                     className="flex items-center gap-2 px-4 py-2 bg-[#2a3548] text-[#d8e3fb] text-xs font-bold uppercase hover:bg-[#1f2a3c] transition"
                 >
-                    Date
+                    {t('Date')}
                     {filters.sort === 'asc' ? (
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
@@ -83,7 +87,7 @@ export default function Index({ orders, filters, statuses }) {
                         href={route('admin.orders.index')}
                         className="px-4 py-2 border border-[#44483b]/30 text-[#c5c8b7] text-xs font-bold uppercase hover:text-white transition"
                     >
-                        Réinitialiser
+                        {t('Réinitialiser')}
                     </a>
                 )}
             </form>
@@ -95,22 +99,22 @@ export default function Index({ orders, filters, statuses }) {
                         <thead className="bg-[#040e1f]">
                             <tr>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    N° Commande
+                                    {t('N° Commande')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Client
+                                    {t('Client')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Date
+                                    {t('Date')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Total
+                                    {t('Total')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                    Statut
+                                    {t('Statut')}
                                 </th>
                                 <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7] text-right">
-                                    Actions
+                                    {t('Actions')}
                                 </th>
                             </tr>
                         </thead>
@@ -121,7 +125,7 @@ export default function Index({ orders, filters, statuses }) {
                                         colSpan={6}
                                         className="px-6 py-12 text-center text-[#c5c8b7] text-sm"
                                     >
-                                        Aucune commande trouvée.
+                                        {t('Aucune commande trouvée.')}
                                     </td>
                                 </tr>
                             ) : (
@@ -159,7 +163,7 @@ export default function Index({ orders, filters, statuses }) {
                                                 href={route('admin.orders.show', order.id)}
                                                 className="inline-flex items-center gap-1 px-3 py-1.5 border border-[#44483b]/30 hover:border-[#ceee93]/50 text-[#c5c8b7] hover:text-white text-[10px] font-bold uppercase transition"
                                             >
-                                                Voir détail
+                                                {t('Voir détail')}
                                                 <svg
                                                     className="w-3 h-3"
                                                     fill="none"
@@ -186,7 +190,7 @@ export default function Index({ orders, filters, statuses }) {
                 {orders.last_page > 1 && (
                     <div className="px-6 py-4 border-t border-[#44483b]/20 flex flex-col sm:flex-row justify-between items-center gap-4">
                         <p className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">
-                            {orders.from}–{orders.to} sur {orders.total} commandes
+                            {t('{{from}}–{{to}} sur {{total}} commandes', { from: orders.from, to: orders.to, total: orders.total })}
                         </p>
                         <nav className="flex gap-1">
                             {orders.links.map((link, index) =>

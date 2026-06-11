@@ -1,8 +1,10 @@
 import React from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Layout from '../../../Components/Layout';
+import { useTranslation } from '../../../Contexts/LanguageContext';
 
 export default function Edit({ category }) {
+    const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm({
         name: category.name,
         description: category.description || '',
@@ -15,21 +17,21 @@ export default function Edit({ category }) {
 
     return (
         <Layout>
-            <Head title="Modifier la catégorie" />
+            <Head title={t('Modifier la catégorie')} />
             <div className="max-w-3xl mx-auto py-8">
                 <div className="mb-6 flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Modifier la catégorie</h1>
-                        <p className="text-gray-600">Mettez à jour le nom et la description.</p>
+                        <h1 className="text-3xl font-bold text-gray-900">{t('Modifier la catégorie')}</h1>
+                        <p className="text-gray-600">{t('Mettez à jour le nom et la description.')}</p>
                     </div>
                     <Link href={route('admin.categories.index')} className="text-green-600 hover:text-green-700">
-                        Retour à la liste
+                        {t('Retour à la liste')}
                     </Link>
                 </div>
 
                 <form onSubmit={submit} className="space-y-6 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Nom</label>
+                        <label className="block text-sm font-medium text-gray-700">{t('Nom')}</label>
                         <input
                             type="text"
                             value={data.name}
@@ -41,7 +43,7 @@ export default function Edit({ category }) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Description</label>
+                        <label className="block text-sm font-medium text-gray-700">{t('Description')}</label>
                         <textarea
                             value={data.description}
                             onChange={(e) => setData('description', e.target.value)}
@@ -57,7 +59,7 @@ export default function Edit({ category }) {
                             disabled={processing}
                             className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                         >
-                            Enregistrer
+                            {t('Enregistrer')}
                         </button>
                     </div>
                 </form>

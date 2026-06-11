@@ -2,22 +2,24 @@ import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import Layout from '../../Components/Layout';
 import OrderStatusBadge from '../../Components/OrderStatusBadge';
+import { useTranslation } from '../../Contexts/LanguageContext';
 
 export default function OrderDetail({ order }) {
+    const { t } = useTranslation();
     const formatPrice = (value) => Number(value).toFixed(2).replace('.', ',');
 
     return (
         <Layout>
-            <Head title={`Commande ${order.order_number}`} />
+            <Head title={t('Commande {{number}}', { number: order.order_number })} />
 
             <div className="max-w-5xl mx-auto py-8 px-4">
                 {/* Navigation Breadcrumbs / Back button */}
                 <div className="mb-6">
-                    <Link 
-                        href={route('profile.orders')} 
-                        className="inline-flex items-center text-sm font-semibold text-green-600 hover:text-green-700 transition"
+                    <Link
+                        href={route('profile.orders')}
+                        className="inline-flex items-center text-sm font-semibold text-red-600 hover:text-red-700 transition"
                     >
-                        &larr; Retour à mes commandes
+                        &larr; {t('Retour à mes commandes')}
                     </Link>
                 </div>
 
@@ -25,10 +27,10 @@ export default function OrderDetail({ order }) {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b pb-6 mb-8 gap-4">
                     <div>
                         <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-                            Commande {order.order_number}
+                            {t('Commande {{number}}', { number: order.order_number })}
                         </h1>
                         <p className="text-sm text-gray-500 mt-1">
-                            Passée le {order.created_at}
+                            {t('Passée le {{date}}', { date: order.created_at })}
                         </p>
                     </div>
                     <div>
@@ -41,7 +43,7 @@ export default function OrderDetail({ order }) {
                     <div className="lg:col-span-2 space-y-6">
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                             <div className="px-6 py-4 border-b border-gray-100">
-                                <h2 className="text-lg font-bold text-gray-900">Articles commandés</h2>
+                                <h2 className="text-lg font-bold text-gray-900">{t('Articles commandés')}</h2>
                             </div>
                             <div className="divide-y divide-gray-100">
                                 {order.items.map((item) => (
@@ -56,7 +58,7 @@ export default function OrderDetail({ order }) {
                                                 />
                                             ) : (
                                                 <div className="h-full w-full flex items-center justify-center text-[10px] text-gray-400 font-medium">
-                                                    Aucune
+                                                    {t('Aucune')}
                                                 </div>
                                             )}
                                         </div>
@@ -84,24 +86,24 @@ export default function OrderDetail({ order }) {
                         {/* Delivery Section */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                             <h3 className="text-md font-bold text-gray-900 mb-4 pb-2 border-b">
-                                Informations de livraison
+                                {t('Informations de livraison')}
                             </h3>
                             <div className="space-y-3 text-sm text-gray-600">
                                 <div>
                                     <span className="block text-xs font-semibold uppercase text-gray-400 tracking-wider">
-                                        Destinataire
+                                        {t('Destinataire')}
                                     </span>
                                     <span className="font-semibold text-gray-800">{order.customer_name}</span>
                                 </div>
                                 <div>
                                     <span className="block text-xs font-semibold uppercase text-gray-400 tracking-wider">
-                                        Téléphone
+                                        {t('Téléphone')}
                                     </span>
                                     <span className="text-gray-800">{order.phone}</span>
                                 </div>
                                 <div>
                                     <span className="block text-xs font-semibold uppercase text-gray-400 tracking-wider">
-                                        Adresse
+                                        {t('Adresse')}
                                     </span>
                                     <span className="text-gray-800 block whitespace-pre-line">{order.delivery_address}</span>
                                 </div>
@@ -111,22 +113,22 @@ export default function OrderDetail({ order }) {
                         {/* Payment summary Section */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                             <h3 className="text-md font-bold text-gray-900 mb-4 pb-2 border-b">
-                                Résumé de paiement
+                                {t('Résumé de paiement')}
                             </h3>
                             <div className="space-y-3 text-sm text-gray-600">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-gray-500">Mode de paiement</span>
+                                    <span className="text-gray-500">{t('Mode de paiement')}</span>
                                     <span className="font-semibold text-gray-800">{order.payment_method}</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-gray-500">Statut</span>
+                                    <span className="text-gray-500">{t('Statut')}</span>
                                     <span className="font-semibold text-gray-800">
                                         <OrderStatusBadge status={order.status} />
                                     </span>
                                 </div>
                                 <div className="pt-3 border-t flex justify-between items-center text-base font-bold text-gray-900">
-                                    <span>Total payé</span>
-                                    <span className="text-green-600">{formatPrice(order.total)} DH</span>
+                                    <span>{t('Total payé')}</span>
+                                    <span className="text-red-600">{formatPrice(order.total)} DH</span>
                                 </div>
                             </div>
                         </div>

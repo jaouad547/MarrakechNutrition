@@ -3,15 +3,17 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import Layout from '../../Components/Layout';
 import ProductCard from '../../Components/ProductCard';
 import Breadcrumb from '../../Components/Breadcrumb';
+import { useTranslation } from '../../Contexts/LanguageContext';
 
 export default function Show({ product, related }) {
     const { appUrl } = usePage().props;
+    const { t } = useTranslation();
     const price = Number(product.price).toFixed(2).replace('.', ',');
     const { data, setData, post, processing, errors } = useForm({ quantity: 1 });
 
     const description = product.description
         ? product.description.slice(0, 160)
-        : `Achetez ${product.name} en ligne à Marrakech. Livraison à domicile, paiement à la livraison.`;
+        : t('Achetez {{name}} en ligne à Marrakech. Livraison à domicile, paiement à la livraison.', { name: product.name });
 
     const imageUrl = product.image ? `${appUrl}/storage/${product.image}` : null;
     const canonicalUrl = `${appUrl}/products/${product.slug}`;
@@ -49,8 +51,8 @@ export default function Show({ product, related }) {
                 {/* Breadcrumb */}
                 <Breadcrumb
                     items={[
-                        { label: 'Accueil', href: route('home') },
-                        { label: 'Produits', href: route('products.index') },
+                        { label: t('Accueil'), href: route('home') },
+                        { label: t('Produits'), href: route('products.index') },
                         product.category_slug && {
                             label: product.category,
                             href: route('categories.show', product.category_slug),
@@ -66,18 +68,18 @@ export default function Show({ product, related }) {
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Image */}
-                        <div>
+                        <div className="aspect-[3/4] w-full overflow-hidden rounded-md bg-gray-100">
                             {product.image ? (
                                 <img
                                     src={`/storage/${product.image}`}
                                     alt={`${product.name} — MarrakechNutrition`}
-                                    className="w-full h-96 object-cover rounded-md"
+                                    className="h-full w-full object-cover"
                                     loading="eager"
                                     itemProp="image"
                                 />
                             ) : (
-                                <div className="w-full h-96 bg-gray-100 rounded-md flex items-center justify-center text-gray-400">
-                                    Image non disponible
+                                <div className="h-full w-full flex items-center justify-center text-gray-400">
+                                    {t('Image non disponible')}
                                 </div>
                             )}
                         </div>
@@ -89,7 +91,7 @@ export default function Show({ product, related }) {
                                     {product.category_slug ? (
                                         <Link
                                             href={route('categories.show', product.category_slug)}
-                                            className="hover:text-green-600"
+                                            className="hover:text-red-600"
                                         >
                                             {product.category}
                                         </Link>
@@ -128,7 +130,7 @@ export default function Show({ product, related }) {
                                             : 'bg-red-100 text-red-700'
                                     }`}
                                 >
-                                    {product.stock > 0 ? 'En stock' : 'Rupture de stock'}
+                                    {product.stock > 0 ? t('En stock') : t('Rupture de stock')}
                                 </div>
                             </div>
 
@@ -147,7 +149,7 @@ export default function Show({ product, related }) {
                                         htmlFor="quantity"
                                         className="block text-sm font-medium text-gray-700"
                                     >
-                                        Quantité
+                                        {t('Quantité')}
                                     </label>
                                     <input
                                         id="quantity"
@@ -156,7 +158,7 @@ export default function Show({ product, related }) {
                                         max={product.stock}
                                         value={data.quantity}
                                         onChange={(e) => setData('quantity', Number(e.target.value))}
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-600 focus:ring-green-600"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-600 focus:ring-red-600"
                                     />
                                     {errors.quantity && (
                                         <p className="mt-1 text-sm text-red-600">{errors.quantity}</p>
@@ -166,13 +168,13 @@ export default function Show({ product, related }) {
                                     <button
                                         type="submit"
                                         disabled={product.stock <= 0 || processing}
-                                        className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700 disabled:opacity-50 min-h-[44px]"
+                                        className="inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700 disabled:opacity-50 min-h-[44px]"
                                     >
-                                        Ajouter au panier
+                                        {t('Ajouter au panier')}
                                     </button>
                                     {product.stock <= 0 && (
                                         <p className="text-sm text-red-600">
-                                            Ce produit est en rupture de stock.
+                                            {t('Ce produit est en rupture de stock.')}
                                         </p>
                                     )}
                                 </div>
@@ -183,8 +185,8 @@ export default function Show({ product, related }) {
 
                 {/* Related products */}
                 {related.length > 0 && (
-                    <section className="mt-12" aria-label="Produits similaires">
-                        <h2 className="text-xl font-semibold mb-4">Produits similaires</h2>
+                    <section className="mt-12" aria-label={t('Produits similaires')}>
+                        <h2 className="text-xl font-semibold mb-4">{t('Produits similaires')}</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             {related.map((p) => (
                                 <ProductCard key={p.id} product={p} />

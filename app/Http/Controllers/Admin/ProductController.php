@@ -81,7 +81,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0|max:9999999.99',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'is_active' => 'sometimes|boolean',
         ]);
 
@@ -94,7 +94,7 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return Redirect::route('admin.products.index')->with('status', 'Produit créé avec succès.');
+        return Redirect::route('admin.products.index')->with('status', __('messages.product_created'));
     }
 
     public function update(Request $request, Product $product)
@@ -105,7 +105,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0|max:9999999.99',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'is_active' => 'sometimes|boolean',
         ]);
 
@@ -122,7 +122,7 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return Redirect::route('admin.products.index')->with('status', 'Produit mis à jour avec succès.');
+        return Redirect::route('admin.products.index')->with('status', __('messages.product_updated'));
     }
 
     public function destroy(Product $product)
@@ -133,16 +133,16 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return Redirect::route('admin.products.index')->with('status', 'Produit supprimé.');
+        return Redirect::route('admin.products.index')->with('status', __('messages.product_deleted'));
     }
 
     public function toggleActive(Product $product)
     {
         $product->update(['is_active' => ! $product->is_active]);
 
-        $label = $product->is_active ? 'activé' : 'désactivé';
+        $label = $product->is_active ? __('messages.activated') : __('messages.deactivated');
 
-        return back()->with('status', "Produit {$label} avec succès.");
+        return back()->with('status', __('messages.product_status_updated', ['label' => $label]));
     }
 
     public function updateStock(Request $request, Product $product)
@@ -153,7 +153,7 @@ class ProductController extends Controller
 
         $product->update(['stock' => $validated['stock']]);
 
-        return back()->with('status', 'Stock mis à jour.');
+        return back()->with('status', __('messages.stock_updated'));
     }
 
     protected function generateUniqueSlug(string $name, ?int $ignoreId = null): string

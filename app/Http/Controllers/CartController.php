@@ -47,11 +47,11 @@ class CartController extends Controller
     public function store(Request $request, Product $product)
     {
         if (! $product->is_active) {
-            return back()->with('status', 'Ce produit n’est pas disponible.');
+            return back()->with('status', __('messages.product_unavailable'));
         }
 
         if ($product->stock <= 0) {
-            return back()->with('status', 'Ce produit est en rupture de stock.');
+            return back()->with('status', __('messages.product_out_of_stock'));
         }
 
         $validated = $request->validate([
@@ -70,7 +70,7 @@ class CartController extends Controller
             $this->cartService->syncDatabaseCartFromItems($request->user(), array_values($cartItems));
         }
 
-        return back()->with('status', 'Produit ajouté au panier.');
+        return back()->with('status', __('messages.product_added_to_cart'));
     }
 
     public function update(Request $request, Product $product)
@@ -82,7 +82,7 @@ class CartController extends Controller
         $cartItems = $request->session()->get('cart.items', []);
 
         if (! isset($cartItems[$product->id])) {
-            return redirect()->route('cart.index')->with('status', 'Produit introuvable dans le panier.');
+            return redirect()->route('cart.index')->with('status', __('messages.product_not_found_in_cart'));
         }
 
         $cartItems[$product->id] = $this->cartService->makeCartItem($product, (int) $validated['quantity']);
@@ -92,7 +92,7 @@ class CartController extends Controller
             $this->cartService->syncDatabaseCartFromItems($request->user(), array_values($cartItems));
         }
 
-        return back()->with('status', 'Quantité mise à jour.');
+        return back()->with('status', __('messages.quantity_updated'));
     }
 
     public function destroy(Request $request, Product $product)
@@ -108,7 +108,7 @@ class CartController extends Controller
             }
         }
 
-        return back()->with('status', 'Produit retiré du panier.');
+        return back()->with('status', __('messages.product_removed_from_cart'));
     }
 
     private function makeCartItem(Product $product, int $quantity): array

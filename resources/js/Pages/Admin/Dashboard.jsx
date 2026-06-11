@@ -2,13 +2,15 @@ import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AdminLayout from '../../Components/AdminLayout';
 import OrderStatusBadge from '../../Components/OrderStatusBadge';
+import { useTranslation } from '../../Contexts/LanguageContext';
 
 export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
+    const { t } = useTranslation();
     const formatPrice = (value) => Number(value).toFixed(2).replace('.', ',');
 
     const statCards = [
         {
-            title: 'Chiffre d\'affaires',
+            title: t('Chiffre d\'affaires'),
             value: `${formatPrice(stats.total_revenue)} DH`,
             icon: (
                 <svg className="w-6 h-6 text-[#ceee93]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -18,7 +20,7 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
             borderClass: 'border-l-4 border-[#ceee93]',
         },
         {
-            title: 'Total Commandes',
+            title: t('Total Commandes'),
             value: stats.total_orders,
             icon: (
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +30,7 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
             borderClass: 'border-l-4 border-[#44483b]',
         },
         {
-            title: 'Total Produits',
+            title: t('Total Produits'),
             value: stats.total_products,
             icon: (
                 <svg className="w-6 h-6 text-[#bec6e0]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +40,7 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
             borderClass: 'border-l-4 border-[#2a3548]',
         },
         {
-            title: 'Clients Actifs',
+            title: t('Clients Actifs'),
             value: stats.total_users,
             icon: (
                 <svg className="w-6 h-6 text-[#bec6e0]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +52,7 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
     ];
 
     return (
-        <AdminLayout title="Vue d'ensemble">
+        <AdminLayout title={t("Vue d'ensemble")}>
             {/* Stats Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {statCards.map((card, idx) => (
@@ -73,24 +75,24 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
                 {/* Recent Orders List (col-span-2) */}
                 <div className="lg:col-span-2 bg-[#152031] border border-[#44483b]/20 rounded-none overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.01)] flex flex-col">
                     <div className="px-6 py-5 border-b border-[#44483b]/20 flex justify-between items-center">
-                        <h4 className="text-md font-bold uppercase tracking-wider text-white font-serif">Commandes Récentes</h4>
+                        <h4 className="text-md font-bold uppercase tracking-wider text-white font-serif">{t('Commandes Récentes')}</h4>
                         <Link href={route('admin.orders.index')} className="text-[10px] font-bold text-[#ceee93] uppercase hover:underline tracking-wider border border-[#ceee93]/20 px-3 py-1.5 rounded-none transition">
-                            Toutes les commandes
+                            {t('Toutes les commandes')}
                         </Link>
                     </div>
                     <div className="overflow-x-auto flex-1">
                         {recentOrders.length === 0 ? (
                             <div className="p-6 text-center text-[#c5c8b7] text-sm">
-                                Aucune commande passée pour le moment.
+                                {t('Aucune commande passée pour le moment.')}
                             </div>
                         ) : (
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-[#040e1f] text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                        <th className="px-6 py-4">ID Commande</th>
-                                        <th className="px-6 py-4">Client</th>
-                                        <th className="px-6 py-4">Montant</th>
-                                        <th className="px-6 py-4">Statut</th>
+                                        <th className="px-6 py-4">{t('ID Commande')}</th>
+                                        <th className="px-6 py-4">{t('Client')}</th>
+                                        <th className="px-6 py-4">{t('Montant')}</th>
+                                        <th className="px-6 py-4">{t('Statut')}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#44483b]/10">
@@ -124,12 +126,12 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
                             <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
-                            <h4 className="text-xs font-bold uppercase tracking-widest text-white">Alertes Stock Bas</h4>
+                            <h4 className="text-xs font-bold uppercase tracking-widest text-white">{t('Alertes Stock Bas')}</h4>
                         </div>
                         <div className="space-y-4 flex-1">
                             {lowStockProducts.length === 0 ? (
                                 <div className="text-xs text-[#c5c8b7] text-center py-4">
-                                    Aucune alerte. Tous les produits ont un stock suffisant.
+                                    {t('Aucune alerte. Tous les produits ont un stock suffisant.')}
                                 </div>
                             ) : (
                                 lowStockProducts.map((product) => (
@@ -139,7 +141,7 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
                                                 {product.name}
                                             </p>
                                             <p className="text-[10px] text-[#c5c8b7] uppercase mt-0.5">
-                                                Quantité restante
+                                                {t('Quantité restante')}
                                             </p>
                                         </div>
                                         <div className="text-right">
@@ -156,17 +158,17 @@ export default function Dashboard({ stats, recentOrders, lowStockProducts }) {
                     {/* Operational Alert */}
                     <div className="bg-[#ceee93] p-6 rounded-none relative overflow-hidden flex flex-col justify-between shadow-[0_0_15px_rgba(206,238,147,0.1)]">
                         <div className="relative z-10">
-                            <h5 className="text-[10px] font-black text-[#243600] uppercase tracking-widest">Contrôle Système</h5>
+                            <h5 className="text-[10px] font-black text-[#243600] uppercase tracking-widest">{t('Contrôle Système')}</h5>
                             <p className="text-sm font-extrabold text-[#243600] mt-2">
-                                Tous les systèmes de commande sont opérationnels.
+                                {t('Tous les systèmes de commande sont opérationnels.')}
                             </p>
                         </div>
                         <div className="mt-6 relative z-10 flex gap-2">
                             <Link href={route('admin.products.index')} className="px-4 py-2 bg-[#243600] text-[#ceee93] text-[10px] font-bold uppercase hover:bg-[#131f00] transition rounded-none">
-                                Gérer Produits
+                                {t('Gérer Produits')}
                             </Link>
                             <Link href={route('admin.categories.index')} className="px-4 py-2 border border-[#243600] text-[#243600] text-[10px] font-bold uppercase hover:bg-[#243600]/10 transition rounded-none">
-                                Catégories
+                                {t('Catégories')}
                             </Link>
                         </div>
                     </div>

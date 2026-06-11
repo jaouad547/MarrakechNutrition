@@ -77,6 +77,7 @@ class HandleInertiaRequests extends Middleware
                 'status' => fn () => $request->session()->get('status'),
             ],
             'appUrl' => rtrim(config('app.url'), '/'),
+            'locale' => app()->getLocale(),
         ];
     }
 }

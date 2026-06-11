@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from '../Contexts/LanguageContext';
 
 export default function CartItem({ item, onUpdate, onRemove, processing }) {
+    const { t } = useTranslation();
     const [quantity, setQuantity] = useState(item.quantity);
 
     useEffect(() => {
@@ -15,7 +17,7 @@ export default function CartItem({ item, onUpdate, onRemove, processing }) {
                         {item.image ? (
                             <img src={`/storage/${item.image}`} alt={item.name} className="w-full h-full object-cover" />
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-400">Pas d'image</div>
+                            <div className="w-full h-full flex items-center justify-center text-gray-400">{t("Pas d'image")}</div>
                         )}
                     </div>
                     <div>
@@ -33,7 +35,7 @@ export default function CartItem({ item, onUpdate, onRemove, processing }) {
                     }}
                     className="flex flex-col gap-2"
                 >
-                    <label className="sr-only">Quantité</label>
+                    <label className="sr-only">{t('Quantité')}</label>
                     <input
                         type="number"
                         min="1"
@@ -45,9 +47,9 @@ export default function CartItem({ item, onUpdate, onRemove, processing }) {
                     <button
                         type="submit"
                         disabled={processing}
-                        className="inline-flex items-center justify-center rounded-md bg-green-600 px-3 py-1 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                        className="inline-flex items-center justify-center rounded-md bg-red-600 px-3 py-1 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
                     >
-                        Mettre à jour
+                        {t('Mettre à jour')}
                     </button>
                 </form>
             </td>
@@ -59,7 +61,7 @@ export default function CartItem({ item, onUpdate, onRemove, processing }) {
                     disabled={processing}
                     className="rounded-md bg-red-50 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-50"
                 >
-                    Supprimer
+                    {t('Supprimer')}
                 </button>
             </td>
         </tr>

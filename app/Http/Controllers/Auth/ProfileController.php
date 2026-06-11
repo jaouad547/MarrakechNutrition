@@ -37,7 +37,7 @@ class ProfileController extends Controller
 
         $user->update($request->only(['name', 'email', 'phone', 'address']));
 
-        return back()->with('status', 'Profil mis à jour avec succès.');
+        return back()->with('status', __('messages.profile_updated'));
     }
 
     /**
@@ -53,12 +53,12 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         if (! Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);
+            return back()->withErrors(['current_password' => __('messages.current_password_incorrect')]);
         }
 
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return back()->with('status', 'Mot de passe mis à jour.');
+        return back()->with('status', __('messages.password_updated'));
     }
 }

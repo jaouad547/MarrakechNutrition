@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { LanguageProvider, useTranslation } from '../Contexts/LanguageContext';
+import LanguageSwitcher from './LanguageSwitcher';
 
-export default function AdminLayout({ children, title }) {
+function AdminLayoutContent({ children, title }) {
     const { url, props } = usePage();
-    const adminName = props.auth?.user?.name || 'Administrateur';
+    const { t } = useTranslation();
+    const adminName = props.auth?.user?.name || t('Administrateur');
     const flash = props.flash || {};
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -49,14 +52,14 @@ export default function AdminLayout({ children, title }) {
             activePattern: /^\/admin\/orders/,
         },
         {
-            name: 'Utilisateurs',
+            name: 'Bannières',
             icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1zM3 16l5-5 4 4 4-5 5 6" />
                 </svg>
             ),
-            route: 'admin.users.index',
-            activePattern: /^\/admin\/users/,
+            route: 'admin.banners.index',
+            activePattern: /^\/admin\/banners/,
         },
     ];
 
@@ -67,9 +70,23 @@ export default function AdminLayout({ children, title }) {
             <div className="p-6 flex flex-col gap-2">
                 <Link
                     href={route('admin.dashboard')}
-                    className="text-xl font-extrabold tracking-tighter text-white font-serif uppercase"
+                    className="flex items-center gap-2 text-xl font-extrabold tracking-tighter text-white font-serif uppercase"
                     onClick={() => setSidebarOpen(false)}
                 >
+                    <svg
+                        className="w-7 h-7 text-[#ceee93] shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M2 12h2M4 8v8M6 6v12M9 10v4M9 12h6M15 10v4M18 6v12M20 8v8M22 12h-2"
+                        />
+                    </svg>
                     MARRAKECH NUTRITION
                 </Link>
                 <div className="flex items-center gap-3 mt-4 p-3 bg-[#2a3548]/20 border border-[#44483b]/10 rounded-none">
@@ -78,7 +95,7 @@ export default function AdminLayout({ children, title }) {
                     </div>
                     <div className="min-w-0">
                         <p className="text-xs font-bold text-white uppercase tracking-wider truncate">{adminName}</p>
-                        <p className="text-[10px] text-[#c5c8b7] uppercase tracking-widest">Admin Control</p>
+                        <p className="text-[10px] text-[#c5c8b7] uppercase tracking-widest">{t('Contrôle Administrateur')}</p>
                     </div>
                 </div>
             </div>
@@ -98,7 +115,7 @@ export default function AdminLayout({ children, title }) {
                             }`}
                         >
                             {item.icon}
-                            <span>{item.name}</span>
+                            <span>{t(item.name)}</span>
                         </Link>
                     );
                 })}
@@ -113,7 +130,7 @@ export default function AdminLayout({ children, title }) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
                     </svg>
-                    Nouveau Produit
+                    {t('Nouveau Produit')}
                 </Link>
             </div>
         </>
@@ -154,22 +171,23 @@ export default function AdminLayout({ children, title }) {
                             type="button"
                             onClick={() => setSidebarOpen(true)}
                             className="lg:hidden flex items-center justify-center w-11 h-11 text-[#c5c8b7] hover:text-white transition"
-                            aria-label="Ouvrir le menu"
+                            aria-label={t('Ouvrir le menu')}
                         >
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
                         <h2 className="text-base sm:text-xl font-extrabold uppercase text-white font-serif tracking-tight truncate">
-                            {title || 'Overview'}
+                            {title || t("Vue d'ensemble")}
                         </h2>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-6 shrink-0">
+                        <LanguageSwitcher />
                         <Link
                             href="/"
                             className="text-xs uppercase font-bold text-[#c5c8b7] hover:text-white border border-[#44483b]/30 px-3 py-2 rounded-none transition min-h-[44px] flex items-center"
                         >
-                            Boutique
+                            {t('Boutique')}
                         </Link>
                         <Link
                             href={route('logout')}
@@ -177,7 +195,7 @@ export default function AdminLayout({ children, title }) {
                             as="button"
                             className="text-xs uppercase font-bold text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-none transition min-h-[44px] flex items-center"
                         >
-                            Déconnexion
+                            {t('Déconnexion')}
                         </Link>
                     </div>
                 </header>
@@ -194,12 +212,22 @@ export default function AdminLayout({ children, title }) {
 
                 {/* Footer */}
                 <footer className="w-full py-4 sm:py-6 px-4 sm:px-10 border-t border-[#44483b]/20 bg-[#040e1f] flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px] uppercase font-semibold tracking-widest text-[#c5c8b7]">
-                    <p>© 2026 MARRAKECH NUTRITION. PANNEAU D'ADMINISTRATION.</p>
+                    <p>{t("© 2026 MARRAKECH NUTRITION. PANNEAU D'ADMINISTRATION.")}</p>
                     <div className="flex gap-6">
-                        <Link href="/" className="hover:text-white">Retour à l'accueil</Link>
+                        <Link href="/" className="hover:text-white">{t("Retour à l'accueil")}</Link>
                     </div>
                 </footer>
             </div>
         </div>
+    );
+}
+
+export default function AdminLayout({ children, title }) {
+    const { props } = usePage();
+
+    return (
+        <LanguageProvider locale={props.locale}>
+            <AdminLayoutContent title={title}>{children}</AdminLayoutContent>
+        </LanguageProvider>
     );
 }

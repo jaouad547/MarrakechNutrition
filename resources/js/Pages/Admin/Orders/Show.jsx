@@ -2,18 +2,22 @@ import React from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AdminLayout from '../../../Components/AdminLayout';
 import OrderStatusBadge from '../../../Components/OrderStatusBadge';
+import { useTranslation } from '../../../Contexts/LanguageContext';
 
 function formatPrice(value) {
     return Number(value).toFixed(2).replace('.', ',') + ' DH';
 }
 
-const NEXT_STATUS_LABELS = {
-    preparing: 'En préparation',
-    'in delivery': 'En cours de livraison',
-    delivered: 'Livré',
-};
+const getNextStatusLabels = (t) => ({
+    preparing: t('En préparation'),
+    'in delivery': t('En cours de livraison'),
+    delivered: t('Livré'),
+});
 
 export default function Show({ order }) {
+    const { t } = useTranslation();
+    const NEXT_STATUS_LABELS = getNextStatusLabels(t);
+
     const advanceStatus = () => {
         router.patch(route('admin.orders.update-status', order.id), {}, { preserveScroll: false });
     };
@@ -21,7 +25,7 @@ export default function Show({ order }) {
     const cancelOrder = () => {
         if (
             window.confirm(
-                `Annuler la commande ${order.order_number} ?\n\nLes stocks seront restaurés automatiquement.`,
+                t('Annuler la commande {{number}} ?\n\nLes stocks seront restaurés automatiquement.', { number: order.order_number }),
             )
         ) {
             router.post(route('admin.orders.cancel', order.id));
@@ -29,8 +33,8 @@ export default function Show({ order }) {
     };
 
     return (
-        <AdminLayout title={`Commande ${order.order_number}`}>
-            <Head title={`Commande ${order.order_number}`} />
+        <AdminLayout title={t('Commande {{number}}', { number: order.order_number })}>
+            <Head title={t('Commande {{number}}', { number: order.order_number })} />
 
             {/* Back + Header */}
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
@@ -42,13 +46,13 @@ export default function Show({ order }) {
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
                         </svg>
-                        Retour aux commandes
+                        {t('Retour aux commandes')}
                     </Link>
                     <h1 className="text-2xl font-black uppercase text-white font-serif tracking-tight">
-                        Commande {order.order_number}
+                        {t('Commande {{number}}', { number: order.order_number })}
                     </h1>
                     <p className="text-[#c5c8b7] text-xs uppercase tracking-wider mt-1">
-                        Passée le {order.created_at}
+                        {t('Passée le {{date}}', { date: order.created_at })}
                     </p>
                 </div>
 
@@ -62,7 +66,7 @@ export default function Show({ order }) {
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                             </svg>
-                            Passer à : {NEXT_STATUS_LABELS[order.next_status] ?? order.next_status}
+                            {t('Passer à : {{status}}', { status: NEXT_STATUS_LABELS[order.next_status] ?? order.next_status })}
                         </button>
                     )}
                     {order.can_cancel && (
@@ -73,7 +77,7 @@ export default function Show({ order }) {
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
-                            Annuler la commande
+                            {t('Annuler la commande')}
                         </button>
                     )}
                 </div>
@@ -86,7 +90,7 @@ export default function Show({ order }) {
                     <div className="bg-[#152031] border border-[#44483b]/20 overflow-hidden">
                         <div className="px-6 py-4 border-b border-[#44483b]/20">
                             <h2 className="text-xs font-bold uppercase tracking-widest text-white">
-                                Articles commandés
+                                {t('Articles commandés')}
                             </h2>
                         </div>
                         <div className="overflow-x-auto">
@@ -94,16 +98,16 @@ export default function Show({ order }) {
                                 <thead className="bg-[#040e1f]">
                                     <tr>
                                         <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7]">
-                                            Produit
+                                            {t('Produit')}
                                         </th>
                                         <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7] text-center">
-                                            Qté
+                                            {t('Qté')}
                                         </th>
                                         <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7] text-right">
-                                            Prix unitaire
+                                            {t('Prix unitaire')}
                                         </th>
                                         <th className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#c5c8b7] text-right">
-                                            Total ligne
+                                            {t('Total ligne')}
                                         </th>
                                     </tr>
                                 </thead>
@@ -151,7 +155,7 @@ export default function Show({ order }) {
                                             colSpan={3}
                                             className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#c5c8b7] text-right"
                                         >
-                                            Total commande
+                                            {t('Total commande')}
                                         </td>
                                         <td className="px-6 py-4 text-base font-black text-[#ceee93] text-right">
                                             {formatPrice(order.total)}
@@ -165,14 +169,14 @@ export default function Show({ order }) {
                     {/* Status timeline */}
                     <div className="bg-[#152031] border border-[#44483b]/20 p-6">
                         <h2 className="text-xs font-bold uppercase tracking-widest text-white mb-4">
-                            Statut actuel
+                            {t('Statut actuel')}
                         </h2>
                         <div className="flex items-center gap-0">
                             {[
-                                { key: 'Pending payment on delivery', label: 'En attente' },
-                                { key: 'preparing', label: 'Préparation' },
-                                { key: 'in delivery', label: 'Livraison' },
-                                { key: 'delivered', label: 'Livré' },
+                                { key: 'Pending payment on delivery', label: t('En attente') },
+                                { key: 'preparing', label: t('Préparation') },
+                                { key: 'in delivery', label: t('Livraison') },
+                                { key: 'delivered', label: t('Livré') },
                             ].map((step, index, arr) => {
                                 const statusLower = (order.status || '').toLowerCase().trim();
                                 const stepLower = step.key.toLowerCase().trim();
@@ -249,7 +253,7 @@ export default function Show({ order }) {
                                             </svg>
                                         </div>
                                         <span className="mt-2 text-[10px] font-bold uppercase tracking-wider text-red-400 text-center">
-                                            Annulé
+                                            {t('Annulé')}
                                         </span>
                                     </div>
                                 </>
@@ -263,24 +267,24 @@ export default function Show({ order }) {
                     {/* Customer info */}
                     <div className="bg-[#152031] border border-[#44483b]/20 p-6">
                         <h2 className="text-xs font-bold uppercase tracking-widest text-white mb-4 pb-2 border-b border-[#44483b]/20">
-                            Informations client
+                            {t('Informations client')}
                         </h2>
                         <div className="space-y-4">
                             <div>
-                                <p className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">Nom</p>
+                                <p className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">{t('Nom')}</p>
                                 <p className="text-sm font-semibold text-white mt-0.5">
                                     {order.customer_name}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">Téléphone</p>
+                                <p className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">{t('Téléphone')}</p>
                                 <p className="text-sm font-semibold text-[#ceee93] mt-0.5">
                                     {order.phone}
                                 </p>
                             </div>
                             <div>
                                 <p className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">
-                                    Adresse de livraison
+                                    {t('Adresse de livraison')}
                                 </p>
                                 <p className="text-sm text-[#d8e3fb] mt-0.5 leading-relaxed whitespace-pre-line">
                                     {order.delivery_address}
@@ -292,12 +296,12 @@ export default function Show({ order }) {
                     {/* Order summary */}
                     <div className="bg-[#152031] border border-[#44483b]/20 p-6">
                         <h2 className="text-xs font-bold uppercase tracking-widest text-white mb-4 pb-2 border-b border-[#44483b]/20">
-                            Récapitulatif
+                            {t('Récapitulatif')}
                         </h2>
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
                                 <span className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">
-                                    Paiement
+                                    {t('Paiement')}
                                 </span>
                                 <span className="text-xs font-semibold text-[#d8e3fb]">
                                     {order.payment_method}
@@ -305,7 +309,7 @@ export default function Show({ order }) {
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="text-[10px] text-[#c5c8b7] uppercase tracking-wider">
-                                    Articles
+                                    {t('Articles')}
                                 </span>
                                 <span className="text-xs font-semibold text-[#d8e3fb]">
                                     {order.items.length}
@@ -313,7 +317,7 @@ export default function Show({ order }) {
                             </div>
                             <div className="flex justify-between items-center pt-3 border-t border-[#44483b]/20">
                                 <span className="text-[10px] text-[#c5c8b7] uppercase tracking-wider font-bold">
-                                    Total
+                                    {t('Total')}
                                 </span>
                                 <span className="text-base font-black text-[#ceee93]">
                                     {formatPrice(order.total)}
@@ -325,7 +329,7 @@ export default function Show({ order }) {
                     {/* Current status badge */}
                     <div className="bg-[#152031] border border-[#44483b]/20 p-6">
                         <h2 className="text-xs font-bold uppercase tracking-widest text-white mb-3">
-                            Statut
+                            {t('Statut')}
                         </h2>
                         <OrderStatusBadge status={order.status} />
                     </div>

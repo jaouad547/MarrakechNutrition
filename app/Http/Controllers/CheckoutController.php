@@ -22,7 +22,7 @@ class CheckoutController extends Controller
         $cartItems = $request->session()->get('cart.items', []);
 
         if (empty($cartItems)) {
-            return redirect()->route('cart.index')->with('status', 'Votre panier est vide.');
+            return redirect()->route('cart.index')->with('status', __('messages.cart_empty'));
         }
 
         $items = collect($cartItems)
@@ -56,7 +56,7 @@ class CheckoutController extends Controller
         $cartItems = $request->session()->get('cart.items', []);
 
         if (empty($cartItems)) {
-            return redirect()->route('cart.index')->with('status', 'Votre panier est vide.');
+            return redirect()->route('cart.index')->with('status', __('messages.cart_empty'));
         }
 
         $validated = $request->validate([
@@ -76,13 +76,13 @@ class CheckoutController extends Controller
             ->values();
 
         if ($items->isEmpty()) {
-            return redirect()->route('cart.index')->with('status', 'Aucun produit actif n’est disponible dans votre panier.');
+            return redirect()->route('cart.index')->with('status', __('messages.no_active_products_in_cart'));
         }
 
         $insufficientStock = $items->first(fn ($item) => $item['quantity'] > $item['product']->stock);
 
         if ($insufficientStock) {
-            return redirect()->route('cart.index')->with('status', 'Stock insuffisant pour le produit : ' . $insufficientStock['product']->name);
+            return redirect()->route('cart.index')->with('status', __('messages.insufficient_stock', ['product' => $insufficientStock['product']->name]));
         }
 
         $deliveryFee = 20.00;
@@ -109,7 +109,7 @@ class CheckoutController extends Controller
                 $quantity = $item['quantity'];
 
                 if ($product->stock < $quantity) {
-                    throw new \Exception('Stock insuffisant pour le produit : ' . $product->name);
+                    throw new \Exception(__('messages.insufficient_stock', ['product' => $product->name]));
                 }
 
                 $product->decrement('stock', $quantity);
@@ -132,7 +132,7 @@ class CheckoutController extends Controller
         $this->cartService->clearSessionCart($request);
 
         return redirect()->route('order.confirmation', ['order' => $order->id])
-            ->with('status', 'Votre commande a été passée avec succès.');
+            ->with('status', __('messages.order_placed'));
 
 }
 

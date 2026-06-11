@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
+import { useTranslation } from '../Contexts/LanguageContext';
 
 /**
  * Breadcrumb navigation component.
  * @param {{ label: string, href?: string }[]} items - Crumbs from left to right; last item has no href.
  */
 export default function Breadcrumb({ items }) {
+    const { t } = useTranslation();
+
     return (
-        <nav aria-label="Fil d'Ariane" className="mb-4">
+        <nav aria-label={t("Fil d'Ariane")} className="mb-4">
             <ol
                 className="flex flex-wrap items-center gap-1.5 text-sm text-gray-500"
                 itemScope
@@ -35,7 +38,7 @@ export default function Breadcrumb({ items }) {
                         {item.href ? (
                             <Link
                                 href={item.href}
-                                className="hover:text-green-600 transition-colors"
+                                className="hover:text-red-600 transition-colors"
                                 itemProp="item"
                             >
                                 <span itemProp="name">{item.label}</span>
