@@ -47,7 +47,7 @@ export default function Navbar() {
                                 onClick={closeMenu}
                             >
                                 <svg
-                                    className="w-7 h-7 text-red-500 shrink-0"
+                                    className="w-7 h-7 text-red-500 shrink-0 mr-1"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
